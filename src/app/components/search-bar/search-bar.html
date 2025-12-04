@@ -1,0 +1,21 @@
+<header class="flex items-center justify-between gap-4 p-3
+                   sm:p-4 sm:gap-3
+                   md:flex-row md:py-5 md:px-6
+                   lg:py-6 lg:px-10
+                   flex-col">
+    <div class="flex items-stretch h-10 border border-(--bg-400) rounded-sm overflow-hidden
+                    sm:h-12 w-full">
+        <input type="text" class="flex-1 pl-2 lg:px-4 outline-none font-semibold text-(--text-200)
+                       placeholder:text-(--text-400) placeholder:font-normal" placeholder="Search in Wikipedia" />
+        <button class="flex items-center justify-center w-10 h-full border-none cursor-pointer
+                           hover:scale-110 sm:w-11 lg:pr-3" title="Search">
+            <i-lucide [name]="searchIcon"></i-lucide>
+        </button>
+    </div>
+    <button class="flex items-center justify-center gap-2 h-10 px-4 cursor-pointer
+                       font-semibold text-(--text-200) whitespace-nowrap
+                       sm:h-11 sm:text-lg md:justify-start">
+        <i-lucide [name]="starIcon" color="#cdd016"></i-lucide>
+        <span>Favoritar busca</span>
+    </button>
+</header>
