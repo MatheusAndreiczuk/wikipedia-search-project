@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { SearchService } from '../../services/search-service';
 
 @Component({
   selector: 'app-favorite-searches',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './favorite-searches.css',
 })
 export class FavoriteSearches {
-
+  readonly favoriteService = inject(SearchService);
 }

@@ -1,1 +1,7 @@
-<p>favorite-searches works!</p>
+<ul>
+    @for(term of favoriteService.favoriteTerms(); track term){
+    <li class="mb-4 last:mb-0">
+        <span class="text-(--text-200)">{{term}}</span>
+    </li>
+    }
+</ul>
