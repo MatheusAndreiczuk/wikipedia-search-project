@@ -1,5 +1,6 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
 import { WikiResponse, WikiResult } from '../models/ISearchResponseDTO';
+import { IFavoriteResultsDTO } from '../models/IFavoriteResultsDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -9,20 +10,28 @@ export class SearchService {
   readonly searchResults = signal<WikiResult[]>([]);
   readonly currentSearchTerm = signal<string>('');
   readonly favoriteTerms = signal<string[]>([]);
+  readonly favoriteResults = signal<IFavoriteResultsDTO[]>([]);
   readonly hasSearched = signal(false);
   
   readonly hasFavorited = computed(() => this.verifyFavorite(this.currentSearchTerm()));
+  readonly hasFavoritedArticle = computed(() => this.verifyFavoritedArticle(this.currentSearchTerm()));
 
   constructor() {
-    this.loadFavorites();
+    this.loadFavoritedTerms();
+    this.loadFavoriteResults();
 
     effect(() => {
       localStorage.setItem('favoriteTerms', JSON.stringify(this.favoriteTerms()));
+      localStorage.setItem('favoriteArticles', JSON.stringify(this.favoriteResults()));
     })
   }
 
   verifyFavorite(searchTerm: string): boolean {
     return this.favoriteTerms().includes(searchTerm) ? true : false;
+  }
+
+  verifyFavoritedArticle(pageId: string): boolean {
+    return this.favoriteResults().some(article => String(article.pageId) === String(pageId));
   }
 
   async fetchSearchResults(searchTerm: string) {
@@ -37,18 +46,30 @@ export class SearchService {
     this.currentSearchTerm.set(searchTerm);
   }
 
-  addFavorite(searchTerm: string) {
+  addFavoritedTerm(searchTerm: string) {
     if(!searchTerm.trim()) return;
     this.favoriteTerms.update((terms) => [...terms, searchTerm]);
   }
 
-  loadFavorites(){
+  loadFavoritedTerms(){
     const storedTerms = localStorage.getItem('favoriteTerms');
     if(storedTerms){
       const allTerms: string[] = JSON.parse(storedTerms);
       this.favoriteTerms.set(allTerms);
     }
   }
+
+  addFavoriteResult(title: string, snippet: string, pageId: string) {
+    if(!title.trim() || !snippet.trim() || !pageId.trim()) return;
+    const favoriteArticle: IFavoriteResultsDTO = { title, snippet, pageId };
+    this.favoriteResults.update((article) => [...article, favoriteArticle]);
+  }
+
+  loadFavoriteResults(){
+    const storedResults = localStorage.getItem('favoriteArticles');
+    if(storedResults){
+      const allFavorites: IFavoriteResultsDTO[] = JSON.parse(storedResults);
+      this.favoriteResults.set(allFavorites);
+    }
+  }
 }
-
-

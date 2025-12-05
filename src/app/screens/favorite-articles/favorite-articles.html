@@ -1,0 +1,14 @@
+<h1 class="text-(--text-200) text-3xl mx-8 py-8 border-b-2 border-b-(--text-400)">Your favorited articles</h1>
+
+<ul class="pt-10 mx-8">
+    @for(article of favoriteService.favoriteResults(); track article.pageId){
+    <li class="mb-6 last:mb-4 text-xl">
+        <button 
+            class="hover:underline text-[#2316AE] font-semibold text-lg text-left capitalize cursor-pointer"
+            (click)="redirectToWikipedia(article.pageId)" title="Ir para o artigo: {{article.title}}">
+            {{article.title}}
+        </button>
+        <p [innerHTML]="article.snippet + ' ...'" class="text-base"></p>
+    </li>
+    }
+</ul>

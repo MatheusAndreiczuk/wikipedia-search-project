@@ -43,7 +43,7 @@
                        font-semibold text-(--text-200) whitespace-nowrap
                        sm:h-11 sm:text-lg md:justify-start hover:scale-105"
             [class.hidden]="searchService.hasSearched()===false" 
-            (click)="searchService.addFavorite(searchInput())">
+            (click)="searchService.addFavoritedTerm(searchInput())">
         <i-lucide [name]="starIcon" color="#cdd016"></i-lucide>
         <span>Favorite term</span>
     </button>
