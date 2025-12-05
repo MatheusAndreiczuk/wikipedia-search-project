@@ -14,11 +14,13 @@
                 } @else {
                     @for(item of searchService.searchResults(); track item.pageid){
                     <li class="flex flex-col mb-6 last:mb-0">
-                        <a 
-                            href="https://pt.wikipedia.org/?curid={{item.pageid}}"
-                            target="_blank"
-                            class="hover:underline text-[#2316AE] font-semibold text-lg"
-                            >{{item.title}}</a>
+                        <span>
+                            <a
+                                href="https://pt.wikipedia.org/?curid={{item.pageid}}"
+                                target="_blank"
+                                class="hover:underline text-[#2316AE] font-semibold text-lg"
+                                >{{item.title}}</a>
+                        </span>
                         <p [innerHTML]="item.snippet + ' ...'"></p>
                     </li>
                     }
