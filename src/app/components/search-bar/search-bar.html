@@ -7,7 +7,7 @@
                     sm:h-12 w-full">
         <input #searchInputRef type="text" class="flex-1 pl-2 lg:px-4 outline-none font-semibold text-(--text-200)
                        placeholder:text-(--text-400) placeholder:font-normal" placeholder="Search in Wikipedia"
-            [value]="searchInput()" (input)="searchInput.set($event.target.value)"
+            [value]="searchInput()" (input)="searchService.setSearchTerm($event.target.value)"
             (keydown.enter)="onSearch($event, searchInput())" (focus)="onFocus()" (blur)="onBlur()" />
             
         @if(isInputFocused() || !searchService.hasSearched()){

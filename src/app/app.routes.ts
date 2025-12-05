@@ -8,7 +8,7 @@ export const routes: Routes = [
         component: Home,
     },
     {
-        path: 'favoriteSearches',
+        path: 'favoritedTerms',
         component: FavoriteSearches,
     }
 ];

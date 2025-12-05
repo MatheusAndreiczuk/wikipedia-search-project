@@ -33,6 +33,10 @@ export class SearchService {
     this.hasSearched.set(true);
   }
 
+  setSearchTerm(searchTerm: string) {
+    this.currentSearchTerm.set(searchTerm);
+  }
+
   addFavorite(searchTerm: string) {
     if(!searchTerm.trim()) return;
     this.favoriteTerms.update((terms) => [...terms, searchTerm]);

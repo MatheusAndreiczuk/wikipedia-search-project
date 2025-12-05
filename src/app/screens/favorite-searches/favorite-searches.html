@@ -1,7 +1,13 @@
-<ul>
+<h1 class="text-(--text-200) text-3xl mx-8 py-8 border-b-2 border-b-(--text-400)">Your favorited terms</h1>
+
+<ul class="pt-10 mx-8">
     @for(term of favoriteService.favoriteTerms(); track term){
-    <li class="mb-4 last:mb-0">
-        <span class="text-(--text-200)">{{term}}</span>
+    <li class="mb-6 last:mb-4 text-xl">
+        <button 
+            class="hover:underline text-[#2316AE] font-semibold text-lg text-left capitalize cursor-pointer"
+            (click)="redirectToSearch(term)" title="Ir para resultados de: {{term}}">
+            {{term}}
+        </button>
     </li>
     }
 </ul>

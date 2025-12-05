@@ -1,5 +1,5 @@
 import { SearchService } from './../../services/search-service';
-import { Component, ElementRef, inject, output, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, output, signal, ViewChild, computed } from '@angular/core';
 import { LucideAngularModule, Search, Star, X } from "lucide-angular";
 
 @Component({
@@ -16,7 +16,7 @@ export class SearchBar {
   readonly xIcon = X;
 
   search = output<string>();
-  searchInput = signal('');
+  searchInput = computed(() => this.searchService.currentSearchTerm());
   isInputFocused = signal(false);
 
   onFocus(){
@@ -28,7 +28,7 @@ export class SearchBar {
   }
 
   clearInput(){
-    this.searchInput.set('');
+    this.searchService.setSearchTerm('');
     setTimeout(() => {
       this.searchInputRef.nativeElement.focus();
     });
