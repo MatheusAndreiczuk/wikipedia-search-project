@@ -9,7 +9,7 @@
 
         <div class="w-full h-full border border-(--bg-300) rounded-sm bg-(--bg-100) p-5">
             <ul>
-                @if(!hasSearchResults()){
+                @if(!hasSearchResults() && this.searchService.hasSearched()){
                 <p class="text-(--text-400)">Resultados não encontrados. Por favor, tente novamente ou digite outro
                     termo.</p>
                 } @else {
