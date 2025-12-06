@@ -1,6 +1,7 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
 import { WikiResponse, WikiResult } from '../models/ISearchResponseDTO';
 import { IFavoriteResultsDTO } from '../models/IFavoriteResultsDTO';
+import { IHistoryItemDTO } from '../models/IHistoryItemDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ export class SearchService {
   readonly currentSearchTerm = signal<string>('');
   readonly favoriteTerms = signal<string[]>([]);
   readonly favoriteResults = signal<IFavoriteResultsDTO[]>([]);
+  readonly historyItems = signal<IHistoryItemDTO[]>([]);
   readonly hasSearched = signal(false);
   readonly totalHits = signal<number>(0);
   readonly currentOffset = signal<number>(0);
@@ -21,10 +23,12 @@ export class SearchService {
   constructor() {
     this.loadFavoritedTerms();
     this.loadFavoriteResults();
+    this.loadHistory();
 
     effect(() => {
       localStorage.setItem('favoriteTerms', JSON.stringify(this.favoriteTerms()));
       localStorage.setItem('favoriteArticles', JSON.stringify(this.favoriteResults()));
+      localStorage.setItem('historyItems', JSON.stringify(this.historyItems()));
     })
   }
 
@@ -51,11 +55,27 @@ export class SearchService {
     this.currentSearchTerm.set(searchTerm);
     this.currentOffset.set(offset);
     this.hasSearched.set(true);
+
+    if (offset === 0) {
+      this.addToHistory({
+        type: 'search',
+        termOrTitle: searchTerm,
+        timestamp: Date.now()
+      });
+    }
   }
 
   async getArticleContent(pageId: string): Promise<{ title: string, content: string }> {
     const response = await fetch(`https://pt.wikipedia.org/w/api.php?action=parse&pageid=${pageId}&format=json&origin=*`);
     const data = await response.json();
+    
+    this.addToHistory({
+      type: 'article',
+      termOrTitle: data.parse.title,
+      id: pageId,
+      timestamp: Date.now()
+    });
+
     return {
       title: data.parse.title,
       content: data.parse.text['*']
@@ -99,5 +119,20 @@ export class SearchService {
       const allFavorites: IFavoriteResultsDTO[] = JSON.parse(storedResults);
       this.favoriteResults.set(allFavorites);
     }
+  }
+
+  loadHistory() {
+    const storedHistory = localStorage.getItem('historyItems');
+    if (storedHistory) {
+      this.historyItems.set(JSON.parse(storedHistory));
+    }
+  }
+
+  addToHistory(item: IHistoryItemDTO) {
+    this.historyItems.update(items => [...items, item]);
+  }
+
+  clearHistory() {
+    this.historyItems.set([]);
   }
 }
