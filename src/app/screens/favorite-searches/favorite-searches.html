@@ -1,12 +1,20 @@
-<h1 class="text-(--text-200) text-3xl mx-8 py-8 border-b-2 border-b-(--text-400)">Your favorited terms</h1>
+<h1 class="text-(--text-200) text-3xl mx-3 sm:mx-8 py-8 border-b-2 border-b-(--text-400)">Your favorited terms</h1>
 
-<ul class="pt-10 mx-8">
+<ul class="pt-10 mx-3 sm:mx-8">
     @for(term of favoriteService.favoriteTerms(); track term){
-    <li class="mb-6 last:mb-4 text-xl">
-        <button 
-            class="hover:underline text-[#2316AE] font-semibold text-lg text-left capitalize cursor-pointer"
+    <li class="mb-6 last:mb-4 text-xl flex items-center">
+        <button class="hover:underline text-[#2316AE] font-semibold text-lg text-left capitalize cursor-pointer w-auto"
             (click)="redirectToSearch(term)" title="Ir para resultados de: {{term}}">
             {{term}}
+        </button>
+
+        <span class="flex-5/12 border-t mx-1 sm:mx-4 border-(--text-400)"></span>
+
+        <button title="Remover {{term}} dos favoritos" 
+            class="sm:ml-2 cursor-pointer hover:scale-105 text-base text-red-500 font-semibold" 
+            (click)="removeFavoriteTerm(term)">
+            <span class="hidden sm:inline">Remover</span>
+            <i-lucide [name]="xIcon" class="inline sm:hidden shrink" ></i-lucide>
         </button>
     </li>
     }

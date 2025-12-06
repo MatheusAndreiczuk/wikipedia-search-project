@@ -3,12 +3,23 @@
 <ul class="pt-10 mx-8">
     @for(article of favoriteService.favoriteResults(); track article.pageId){
     <li class="mb-6 last:mb-4 text-xl">
-        <button 
-            class="hover:underline text-[#2316AE] font-semibold text-lg text-left capitalize cursor-pointer"
-            (click)="redirectToWikipedia(article.pageId)" title="Ir para o artigo: {{article.title}}">
-            {{article.title}}
-        </button>
-        <p [innerHTML]="article.snippet + ' ...'" class="text-base"></p>
+        <span class="flex items-center sm:flex-row flex-col gap-1 sm:gap-0">
+            <span>
+                <button
+                    class="hover:underline text-[#2316AE] font-semibold text-lg text-left capitalize cursor-pointer"
+                    (click)="redirectToWikipedia(article.pageId)" title="Ir para o artigo: {{article.title}}">
+                    {{article.title}}
+                </button>
+                <p [innerHTML]="article.snippet + ' ...'" class="text-base text-justify"></p>
+            </span>
+            <span class="flex-5/12 border-t mx-1 sm:mx-4 border-(--text-400) hidden sm:inline"></span>
+            <button title="Remover {{article.title}} dos favoritos"
+                class="ml-2 cursor-pointer hover:scale-105 text-base text-red-500 font-semibold self-end sm:self-center"
+                (click)="removeFavoriteArticle(article.pageId)">
+                Remover
+            </button>
+        </span>
     </li>
+    
     }
 </ul>

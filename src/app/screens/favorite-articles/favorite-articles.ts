@@ -14,4 +14,8 @@ export class FavoriteArticles {
     const url = `https://pt.wikipedia.org/?curid=${pageId}`;
     window.open(url, '_blank');
   }
+
+  removeFavoriteArticle(pageId: string) {
+    this.favoriteService.removeFavoriteResult(pageId);
+  }
 }

@@ -51,6 +51,10 @@ export class SearchService {
     this.favoriteTerms.update((terms) => [...terms, searchTerm]);
   }
 
+  removeFavoritedTerm(searchTerm: string) {
+    this.favoriteTerms.update((terms) => terms.filter(term => term !== searchTerm));
+  }
+
   loadFavoritedTerms(){
     const storedTerms = localStorage.getItem('favoriteTerms');
     if(storedTerms){
@@ -63,6 +67,10 @@ export class SearchService {
     if(!title.trim() || !snippet.trim() || !pageId.trim()) return;
     const favoriteArticle: IFavoriteResultsDTO = { title, snippet, pageId };
     this.favoriteResults.update((article) => [...article, favoriteArticle]);
+  }
+
+  removeFavoriteResult(pageId: string) {
+    this.favoriteResults.update((articles) => articles.filter(article => String(article.pageId) !== String(pageId)));
   }
 
   loadFavoriteResults(){
