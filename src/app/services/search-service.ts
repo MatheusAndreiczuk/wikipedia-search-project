@@ -12,6 +12,8 @@ export class SearchService {
   readonly favoriteTerms = signal<string[]>([]);
   readonly favoriteResults = signal<IFavoriteResultsDTO[]>([]);
   readonly hasSearched = signal(false);
+  readonly totalHits = signal<number>(0);
+  readonly currentOffset = signal<number>(0);
   
   readonly hasFavorited = computed(() => this.verifyFavorite(this.currentSearchTerm()));
   readonly hasFavoritedArticle = computed(() => this.verifyFavoritedArticle(this.currentSearchTerm()));
@@ -34,12 +36,30 @@ export class SearchService {
     return this.favoriteResults().some(article => String(article.pageId) === String(pageId));
   }
 
-  async fetchSearchResults(searchTerm: string) {
-    const response = await fetch(`https://pt.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchTerm)}&format=json&origin=*`);
+  async fetchSearchResults(searchTerm: string, offset: number = 0) {
+    const response = await fetch(`https://pt.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchTerm)}&sroffset=${offset}&srlimit=10&format=json&origin=*`);
     const data = await response.json() as WikiResponse;
-    data ? this.searchResults.set(data.query.search as WikiResult[]) : this.searchResults.set([]);
+    
+    if (data.query) {
+      this.searchResults.set(data.query.search as WikiResult[]);
+      this.totalHits.set(data.query.searchinfo?.totalhits || 0);
+    } else {
+      this.searchResults.set([]);
+      this.totalHits.set(0);
+    }
+    
     this.currentSearchTerm.set(searchTerm);
+    this.currentOffset.set(offset);
     this.hasSearched.set(true);
+  }
+
+  async getArticleContent(pageId: string): Promise<{ title: string, content: string }> {
+    const response = await fetch(`https://pt.wikipedia.org/w/api.php?action=parse&pageid=${pageId}&format=json&origin=*`);
+    const data = await response.json();
+    return {
+      title: data.parse.title,
+      content: data.parse.text['*']
+    };
   }
 
   setSearchTerm(searchTerm: string) {

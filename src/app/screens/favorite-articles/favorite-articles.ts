@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { SearchService } from '../../services/search-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-favorite-articles',
@@ -9,10 +10,10 @@ import { SearchService } from '../../services/search-service';
 })
 export class FavoriteArticles {
   readonly favoriteService = inject(SearchService);
+  private router = inject(Router);
   
-  redirectToWikipedia(pageId: string) {
-    const url = `https://pt.wikipedia.org/?curid=${pageId}`;
-    window.open(url, '_blank');
+  navigateToArticle(pageId: string) {
+    this.router.navigate(['/article', pageId]);
   }
 
   removeFavoriteArticle(pageId: string) {

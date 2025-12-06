@@ -16,8 +16,8 @@
                 @for(item of searchService.searchResults(); track item.pageid){
                 <li class="flex flex-col mb-6 last:mb-0">
                     <span>
-                        <a href="https://pt.wikipedia.org/?curid={{item.pageid}}" target="_blank"
-                            class="hover:underline text-[#2316AE] font-semibold text-lg">{{item.title}}</a>
+                        <a [routerLink]="['/article', item.pageid]"
+                            class="hover:underline text-[#2316AE] font-semibold text-lg cursor-pointer">{{item.title}}</a>
                     </span>
                     <p class="flex flex-col lg:flex-row justify-between">
                         <span [innerHTML]="item.snippet + ' ...'" ></span>
@@ -48,6 +48,30 @@
                 }
                 }
             </ul>
+            
+            @if(hasSearchResults()) {
+            <div class="flex justify-around items-center mt-4 pt-4 border-t border-(--bg-300)">
+                <button 
+                    class="px-1 sm:px-4 py-2 bg-(--bg-200) rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-(--bg-300) cursor-pointer flex items-center gap-1"
+                    [disabled]="!hasPrevPage()"
+                    (click)="prevPage()">
+                    <i-lucide [name]="arrowLeft" class="w-5 h-5"></i-lucide> <span>Anterior</span>
+                </button>
+                <span class="text-(--text-200) hidden sm:inline text-md">
+                    Página {{currentPage()}} de {{totalPages()}}
+                </span>
+                <span class="text-(--text-200) sm:hidden flex flex-col items-center justify-center">
+                    <span>{{currentPage()}} de</span>
+                    <span class="text-(--text-200)">{{totalPages()}}</span>
+                </span>
+                <button 
+                    class="px-1 sm:px-4 py-2 bg-(--bg-200) rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-(--bg-300) cursor-pointer flex items-center gap-1"
+                    [disabled]="!hasNextPage()"
+                    (click)="nextPage()">
+                    <span>Próxima</span> <i-lucide [name]="arrowRight" class="w-5 h-5"></i-lucide>
+                </button>
+            </div>
+            }
         </div>
     </main>
 </div>

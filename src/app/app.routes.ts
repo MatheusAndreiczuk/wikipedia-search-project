@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Home } from './screens/home/home';
 import { FavoriteSearches } from './screens/favorite-searches/favorite-searches';
 import { FavoriteArticles } from './screens/favorite-articles/favorite-articles';
+import { ArticleView } from './screens/article-view/article-view';
 
 export const routes: Routes = [
     {
@@ -15,5 +16,9 @@ export const routes: Routes = [
     {
         path: 'favoritedArticles',
         component: FavoriteArticles,
+    },
+    {
+        path: 'article/:id',
+        component: ArticleView,
     }
 ];

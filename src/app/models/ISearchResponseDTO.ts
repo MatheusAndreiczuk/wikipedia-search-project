@@ -6,6 +6,10 @@ export interface WikiResult {
 }
 
 export interface WikiResponse {
+  continue?: {
+    sroffset: number;
+    continue: string;
+  };
   query: {
     search: WikiResult[];
     searchinfo?: {
