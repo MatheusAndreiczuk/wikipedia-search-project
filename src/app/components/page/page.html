@@ -2,9 +2,11 @@
     
     <div class="md:hidden flex items-center justify-between p-4 bg-(--bg-400) text-white">
         <span class="font-semibold text-xl">WikiSearch</span>
-        <button (click)="toggleMobileMenu()">
-            <i-lucide [name]="isMobileMenuOpen() ? closeIcon : menuIcon"></i-lucide>
-        </button>
+        @if (!isMobileMenuOpen()) {
+            <button (click)="toggleMobileMenu()">
+                <i-lucide [name]="menuIcon"></i-lucide>
+            </button>
+        }
     </div>
 
     <aside class="hidden md:flex md:flex-col md:w-48 lg:w-64 bg-(--bg-400) md:pt-6">
@@ -13,7 +15,12 @@
 
     @if(isMobileMenuOpen()) {
         <div class="fixed inset-0 bg-black/50 md:hidden" (click)="toggleMobileMenu()"></div>
-        <div class="fixed top-0 left-0 h-full w-64 bg-(--bg-400) md:hidden animate-slide-right">
+        <div class="fixed top-0 left-0 h-full w-64 bg-(--bg-400) md:hidden animate-slide-right flex flex-col">
+            <div class="flex justify-end p-5">
+                <button (click)="toggleMobileMenu()" class="text-white">
+                    <i-lucide [name]="closeIcon"></i-lucide>
+                </button>
+            </div>
             <app-menu/>
         </div>
     }
