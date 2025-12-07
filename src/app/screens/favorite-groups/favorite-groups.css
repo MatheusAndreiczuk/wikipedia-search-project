@@ -1,0 +1,8 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+input::placeholder {
+    color: var(--text-400)
+}

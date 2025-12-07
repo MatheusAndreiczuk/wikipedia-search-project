@@ -4,6 +4,7 @@ import { FavoriteSearches } from './screens/favorite-searches/favorite-searches'
 import { FavoriteArticles } from './screens/favorite-articles/favorite-articles';
 import { ArticleView } from './screens/article-view/article-view';
 import { HistoryScreen } from './screens/history/history';
+import { FavoriteGroups } from './screens/favorite-groups/favorite-groups';
 
 export const routes: Routes = [
     {
@@ -17,6 +18,10 @@ export const routes: Routes = [
     {
         path: 'favoritedArticles',
         component: FavoriteArticles,
+    },
+    {
+        path: 'favoriteGroups',
+        component: FavoriteGroups,
     },
     {
         path: 'article/:id',

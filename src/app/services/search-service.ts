@@ -3,6 +3,7 @@ import { computed, effect, Injectable, signal } from '@angular/core';
 import { WikiResponse, WikiResult } from '../models/ISearchResponseDTO';
 import { IFavoriteResultsDTO } from '../models/IFavoriteResultsDTO';
 import { IHistoryItemDTO } from '../models/IHistoryItemDTO';
+import { IFavoriteGroupDTO } from '../models/IFavoriteGroupDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ export class SearchService {
   readonly currentSearchTerm = signal<string>('');
   readonly favoriteTerms = signal<string[]>([]);
   readonly favoriteResults = signal<IFavoriteResultsDTO[]>([]);
+  readonly favoriteGroups = signal<IFavoriteGroupDTO[]>([]);
   readonly historyItems = signal<IHistoryItemDTO[]>([]);
   readonly hasSearched = signal(false);
   readonly totalHits = signal<number>(0);
@@ -24,11 +26,13 @@ export class SearchService {
   constructor() {
     this.loadFavoritedTerms();
     this.loadFavoriteResults();
+    this.loadFavoriteGroups();
     this.loadHistory();
 
     effect(() => {
       localStorage.setItem('favoriteTerms', JSON.stringify(this.favoriteTerms()));
       localStorage.setItem('favoriteArticles', JSON.stringify(this.favoriteResults()));
+      localStorage.setItem('favoriteGroups', JSON.stringify(this.favoriteGroups()));
       localStorage.setItem('historyItems', JSON.stringify(this.historyItems()));
     })
   }
@@ -123,6 +127,50 @@ export class SearchService {
       const allFavorites: IFavoriteResultsDTO[] = JSON.parse(storedResults);
       this.favoriteResults.set(allFavorites);
     }
+  }
+
+  loadFavoriteGroups() {
+    const storedGroups = localStorage.getItem('favoriteGroups');
+    if (storedGroups) {
+      this.favoriteGroups.set(JSON.parse(storedGroups));
+    }
+  }
+
+  addFavoriteGroup(name: string, color: string) {
+    const newGroup: IFavoriteGroupDTO = {
+      id: crypto.randomUUID(),
+      name,
+      color,
+      articles: []
+    };
+    this.favoriteGroups.update(groups => [...groups, newGroup]);
+  }
+
+  removeFavoriteGroup(groupId: string) {
+    this.favoriteGroups.update(groups => groups.filter(g => g.id !== groupId));
+  }
+
+  addArticleToGroup(groupId: string, article: IFavoriteResultsDTO) {
+    this.favoriteGroups.update(groups => 
+      groups.map(group => {
+        if (group.id === groupId) {
+          if (group.articles.some(a => a.pageId === article.pageId)) return group;
+          return { ...group, articles: [...group.articles, article] };
+        }
+        return group;
+      })
+    );
+  }
+
+  removeArticleFromGroup(groupId: string, articleId: string) {
+    this.favoriteGroups.update(groups => 
+      groups.map(group => {
+        if (group.id === groupId) {
+          return { ...group, articles: group.articles.filter(a => String(a.pageId) !== String(articleId)) };
+        }
+        return group;
+      })
+    );
   }
 
   loadHistory() {
