@@ -1,3 +1,4 @@
+import { IArticleContentDTO } from './../models/IArticleContentDTO';
 import { computed, effect, Injectable, signal } from '@angular/core';
 import { WikiResponse, WikiResult } from '../models/ISearchResponseDTO';
 import { IFavoriteResultsDTO } from '../models/IFavoriteResultsDTO';
@@ -65,14 +66,17 @@ export class SearchService {
     }
   }
 
-  async getArticleContent(pageId: string): Promise<{ title: string, content: string }> {
-    const response = await fetch(`https://pt.wikipedia.org/w/api.php?action=parse&pageid=${pageId}&format=json&origin=*`);
+  async getArticleContent(identifier: string): Promise<IArticleContentDTO> {
+    const isId = /^\d+$/.test(identifier);
+    const param = isId ? `pageid=${identifier}` : `page=${encodeURIComponent(identifier)}`;
+    
+    const response = await fetch(`https://pt.wikipedia.org/w/api.php?action=parse&${param}&format=json&origin=*`);
     const data = await response.json();
     
     this.addToHistory({
       type: 'article',
       termOrTitle: data.parse.title,
-      id: pageId,
+      id: String(data.parse.pageid),
       timestamp: Date.now()
     });
 
