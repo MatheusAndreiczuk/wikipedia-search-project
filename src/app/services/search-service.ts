@@ -2,7 +2,7 @@ import { IArticleContentDTO } from './../models/IArticleContentDTO';
 import { computed, effect, Injectable, signal } from '@angular/core';
 import { WikiResponse, WikiResult } from '../models/ISearchResponseDTO';
 import { IFavoriteResultsDTO } from '../models/IFavoriteResultsDTO';
-import { IHistoryItemDTO } from '../models/IHistoryItemDTO';
+import { IHistoryItemDTO, IHistoryFiltersDTO } from '../models/IHistoryItemDTO';
 import { IFavoriteGroupDTO } from '../models/IFavoriteGroupDTO';
 
 @Injectable({
@@ -16,6 +16,7 @@ export class SearchService {
   readonly favoriteResults = signal<IFavoriteResultsDTO[]>([]);
   readonly favoriteGroups = signal<IFavoriteGroupDTO[]>([]);
   readonly historyItems = signal<IHistoryItemDTO[]>([]);
+  readonly historyOrder = signal<IHistoryFiltersDTO['order']>('newest');
   readonly hasSearched = signal(false);
   readonly totalHits = signal<number>(0);
   readonly currentOffset = signal<number>(0);
@@ -176,13 +177,28 @@ export class SearchService {
   loadHistory() {
     const storedHistory = localStorage.getItem('historyItems');
     if (storedHistory) {
-      this.historyItems.set(JSON.parse(storedHistory));
+      
+      const finalHistory = this.historyOrder() === 'newest' ? 
+        (JSON.parse(storedHistory).reverse() as IHistoryItemDTO[]) : 
+          (JSON.parse(storedHistory) as IHistoryItemDTO[]);
+      this.historyItems.set(finalHistory);
     }
   }
 
   addToHistory(item: IHistoryItemDTO) {
     this.historyItems.update(items => [...items, item]);
   }
+
+  removeHistoryItem(timestamp: number) {
+    this.historyItems.update(items => items.filter(i => i.timestamp !== timestamp));
+  }
+
+  removeHistoryItems(itemsToRemove: IHistoryItemDTO[]) {
+  const timestampsToRemove = itemsToRemove.map(i => i.timestamp);
+  this.historyItems.update(items =>
+    items.filter(i => !timestampsToRemove.includes(i.timestamp))
+  );
+}
 
   clearHistory() {
     this.historyItems.set([]);

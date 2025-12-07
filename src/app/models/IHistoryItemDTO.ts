@@ -6,3 +6,9 @@ export interface IHistoryItemDTO {
   id?: string;
   timestamp: number;
 }
+
+export interface IHistoryFiltersDTO {
+  order: 'newest' | 'oldest';
+  initialDate?: Date;
+  finalDate?: Date;
+}

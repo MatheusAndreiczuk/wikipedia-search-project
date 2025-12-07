@@ -7,7 +7,7 @@
                 Histórico
             </h1>
             
-            @if (historyItems().length > 0) {
+            @if (searchService.historyItems().length > 0) {
                 <button (click)="clearHistory()" 
                     class="flex items-center gap-2 p-2 text-red-500 hover:scale-105 rounded-lg text-sm sm:text-base cursor-pointer">
                     <i-lucide [name]="trashIcon" class="w-4 h-4 hidden sm:inline-flex"></i-lucide>
@@ -16,14 +16,58 @@
             }
         </div>
 
-        @if (historyItems().length === 0) {
+        @if (searchService.historyItems().length === 0) {
             <div class="flex flex-col items-center justify-center py-20 text-(--text-300)">
                 <i-lucide [name]="historyIcon" class="w-16 h-16 text-(--bg-300)"></i-lucide>
                 <p class="text-xl mt-3">Seu histórico está vazio</p>
             </div>
         } @else {
-            <div class="flex flex-col gap-2 mt-8">
-                @for (item of historyItems(); track item.timestamp) {
+            <div class="flex flex-wrap justify-between items-end gap-4 mt-6 mb-4 md:pl-6">
+                <button (click)="resetFilters()" 
+                    [class.opacity-0]="!startDate() && !endDate()"
+                    [class.pointer-events-none]="!startDate() && !endDate()"
+                    class="text-sm sm:text-base text-(--text-300) hover:text-(--text-200) cursor-pointer hover:scale-105">
+                    Limpar Filtros
+                </button>
+
+                <div class="flex flex-wrap sm:justify-end justify-center items-center gap-3">
+                    <div class="relative flex items-center gap-2 bg-(--bg-200) px-3 py-2 rounded-sm shadow hover:outline hover:outline-(--text-300) cursor-pointer"
+                        (click)="focusDateInput(startDateInput)">
+                        <i-lucide [name]="calendarIcon" class="w-4 h-4 text-(--text-300)"
+                            (click)="openCalendar($event, startDatePicker)"></i-lucide>
+                        <span class="text-sm text-(--text-200)">De:</span>
+                        <input #startDateInput appDateInputMask type="text" [ngModel]="startDate()" (ngModelChange)="onStartDateChange($event)"
+                            class="text-(--text-200) text-sm outline-none w-auto cursor-pointer bg-transparent" placeholder="dd/mm/aaaa">
+                        <input #startDatePicker type="date" class="absolute inset-0 opacity-0" aria-hidden="true"
+                            (change)="onDateSelect($event.target.value, 'start')">
+                    </div>
+
+                    <div class="relative flex items-center gap-2 bg-(--bg-200) px-3 py-2 rounded-sm shadow hover:outline hover:outline-(--text-300) cursor-pointer"
+                        (click)="focusDateInput(endDateInput)">
+                        <i-lucide [name]="calendarIcon" class="w-4 h-4 text-(--text-300)"
+                            (click)="openCalendar($event, endDatePicker)"></i-lucide>
+                        <span class="text-sm text-(--text-200)">Até:</span>
+                        <input #endDateInput appDateInputMask type="text" [ngModel]="endDate()" (ngModelChange)="onEndDateChange($event)"
+                            class="text-(--text-200) text-sm outline-none w-auto cursor-pointer bg-transparent" placeholder="dd/mm/aaaa">
+                        <input #endDatePicker type="date" class="absolute inset-0 opacity-0" aria-hidden="true"
+                            (change)="onDateSelect($event.target.value, 'end')">
+                    </div>
+
+                    <div class="relative hover:outline hover:outline-(--text-300) rounded-sm">
+                        <select [ngModel]="order()" (ngModelChange)="order.set($event)"
+                            class="appearance-none bg-(--bg-200) text-(--text-200) pl-4 pr-10 py-2 text-sm outline-none cursor-pointer shadow">
+                            <option value="newest">Mais recentes</option>
+                            <option value="oldest">Mais antigos</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-(--text-200)">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                @for (item of filteredHistoryItems(); track item.timestamp) {
                     <div (click)="navigateToItem(item)" 
                         class="group flex items-center justify-between sm:px-4 py-2 hover:bg-[#F8F8F8] rounded-sm cursor-pointer border border-transparent hover:border-(--bg-300)">
                         
@@ -44,10 +88,21 @@
                             </div>
                         </div>
 
-                        <span class="text-sm text-(--text-300) whitespace-nowrap">
-                            {{ formatDate(item.timestamp) }}
-                        </span>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-(--text-300) whitespace-nowrap">
+                                {{ formatDate(item.timestamp) }}
+                            </span>
+                            
+                            <button (click)="removeSingleItem(item, $event)" 
+                                class="hidden group-hover:flex p-2 text-red-500 cursor-pointer hover:scale-105" 
+                                title="Remover item">
+                                <i-lucide [name]="trashIcon" class="w-5 h-5"></i-lucide>
+                            </button>
+                        </div>
                     </div>
+                }
+                @if (filteredHistoryItems().length === 0) {
+                    <p class="text-center text-(--text-300) py-20">Nenhum item encontrado neste período. Por favor, ajuste os filtros e tente novamente.</p>
                 }
             </div>
         }
