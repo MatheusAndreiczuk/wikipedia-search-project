@@ -7,6 +7,15 @@
                  md:px-6 md:pb-6
                  lg:px-10 lg:pb-8">
 
+        @if(searchService.hasSearched()) {
+            <div class="flex justify-start mb-2 pl-1">
+                <button (click)="clearSearch()" 
+                    class="text-sm sm:text-base text-(--text-300) hover:text-(--text-200) cursor-pointer hover:scale-105">
+                    Limpar Resultados
+                </button>
+            </div>
+        }
+
         <div class="w-full h-full border border-(--bg-300) rounded-sm bg-(--bg-100) p-5">
             <ul>
                 @if(!hasSearchResults() && this.searchService.hasSearched()){

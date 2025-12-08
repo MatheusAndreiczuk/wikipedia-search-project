@@ -39,6 +39,10 @@ export class Home {
    async performSearch(searchTerm: string, offset: number = 0) {
      await this.searchService.fetchSearchResults(searchTerm, offset);
    }
+
+   clearSearch() {
+     this.searchService.clearSearch();
+   }
    
    nextPage() {
      if (this.hasNextPage()) {

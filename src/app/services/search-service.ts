@@ -95,6 +95,14 @@ export class SearchService {
     this.currentSearchTerm.set(searchTerm);
   }
 
+  clearSearch() {
+    this.searchResults.set([]);
+    this.currentSearchTerm.set('');
+    this.hasSearched.set(false);
+    this.totalHits.set(0);
+    this.currentOffset.set(0);
+  }
+
   addFavoritedTerm(searchTerm: string) {
     if(!searchTerm.trim()) return;
     this.favoriteTerms.update((terms) => [...terms, searchTerm]);
