@@ -3,6 +3,7 @@ export interface WikiResult {
   pageid: number;
   snippet: string;
   timestamp: string;
+  dist?: number;
 }
 
 export interface WikiResponse {
@@ -11,7 +12,8 @@ export interface WikiResponse {
     continue: string;
   };
   query: {
-    search: WikiResult[];
+    search?: WikiResult[];
+    geosearch?: WikiResult[];
     searchinfo?: {
       totalhits: number;
     };

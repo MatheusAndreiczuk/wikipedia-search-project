@@ -23,6 +23,7 @@ export const PT = {
     home: {
         searchPlaceholder: 'Pesquisar na Wikipedia',
         clearSearch: 'Limpar Pesquisa',
+        searchNearby: 'Pesquisar Perto de Mim',
         noResults: 'Resultados não encontrados. Por favor, tente novamente ou digite outro termo.',
         favoriteArticle: 'Favoritar artigo',
         favoritedArticle: 'Artigo favoritado',
@@ -93,6 +94,7 @@ export const EN = {
     home: {
         searchPlaceholder: 'Search in Wikipedia',
         clearSearch: 'Clear Search',
+        searchNearby: 'Search Nearby',
         noResults: 'No results found. Please try again or type another term.',
         favoriteArticle: 'Favorite article',
         favoritedArticle: 'Favorited article',

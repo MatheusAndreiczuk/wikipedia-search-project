@@ -50,7 +50,7 @@ export class SearchService {
     const response = await fetch(`https://pt.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchTerm)}&sroffset=${offset}&srlimit=10&format=json&origin=*`);
     const data = await response.json() as WikiResponse;
     
-    if (data.query) {
+    if (data.query && data.query.search) {
       this.searchResults.set(data.query.search as WikiResult[]);
       this.totalHits.set(data.query.searchinfo?.totalhits || 0);
     } else {
@@ -68,6 +68,58 @@ export class SearchService {
         termOrTitle: searchTerm,
         timestamp: Date.now()
       });
+    }
+  }
+
+  async fetchGeoSearchResults(lat: number, lon: number, radius: number = 10000) {
+    const response = await fetch(`https://pt.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${lat}|${lon}&gsradius=${radius}&gslimit=10&format=json&origin=*`);
+    const data = await response.json() as WikiResponse;
+
+    if (data.query && data.query.geosearch) {
+      const results = data.query.geosearch.map((item: any) => ({
+        ...item,
+        snippet: `Distância da pesquisa: ${item.dist} metros`
+      })) as WikiResult[];
+      
+      this.searchResults.set(results);
+      this.totalHits.set(results.length);
+    } else {
+      this.searchResults.set([]);
+      this.totalHits.set(0);
+    }
+
+    const locationName = await this.getReverseGeocoding(lat, lon);
+
+    this.currentSearchTerm.set(locationName);
+    this.currentOffset.set(0);
+    this.hasSearched.set(true);
+
+    this.addToHistory({
+      type: 'search',
+      termOrTitle: locationName,
+      timestamp: Date.now()
+    });
+  }
+
+  async getReverseGeocoding(lat: number, lon: number): Promise<string> {
+    try {
+      const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+      const data = await response.json();
+      
+      if (data.address) {
+        const city = data.address.city || data.address.town || data.address.village || data.address.municipality;
+        const state = data.address.state;
+        
+        if (city && state) {
+          return `${city} - ${state}`;
+        } else if (city) {
+          return city;
+        }
+      }
+      return `Localização: ${lat.toFixed(4)} , ${lon.toFixed(4)}`;
+    } catch (error) {
+      console.error('Erro ao fazer reverse geocoding:', error);
+      return `Localização: ${lat.toFixed(4)} , ${lon.toFixed(4)}`;
     }
   }
 

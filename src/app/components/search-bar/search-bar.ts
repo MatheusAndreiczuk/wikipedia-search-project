@@ -1,6 +1,6 @@
 import { SearchService } from './../../services/search-service';
 import { Component, ElementRef, inject, output, signal, ViewChild, computed } from '@angular/core';
-import { LucideAngularModule, Search, Star, X } from "lucide-angular";
+import { LucideAngularModule, Search, Star, X, MapPin } from "lucide-angular";
 import { TranslationService } from '../../services/translation.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class SearchBar {
   readonly searchIcon = Search;
   readonly starIcon = Star;
   readonly xIcon = X;
+  readonly mapPinIcon = MapPin;
 
   readonly t = this.translationService.t;
   search = output<string>();
@@ -41,6 +42,21 @@ export class SearchBar {
     event.preventDefault();
     if (term.trim()) {
       this.search.emit(term);
+    }
+  }
+
+  onSearchNearby() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        this.searchService.fetchGeoSearchResults(lat, lon);
+      }, (error) => {
+        console.error("Error getting location", error);
+        alert("Erro ao obter localização. Verifique se a permissão foi concedida.");
+      });
+    } else {
+      alert("Geolocalização não é suportada neste navegador.");
     }
   }
 }

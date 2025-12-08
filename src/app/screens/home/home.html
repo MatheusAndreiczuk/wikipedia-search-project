@@ -58,7 +58,7 @@
             </ul>
             
             @if(hasSearchResults()) {
-            <div class="flex justify-around items-center mt-4 pt-4 border-t border-(--bg-300)">
+            <div class="flex flex-col gap-2 sm:gap-0 sm:flex-row justify-around items-center mt-4 pt-4 border-t border-(--bg-300)">
                 <button 
                     class="px-1 sm:px-4 py-2 bg-(--bg-200) rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-(--bg-300) cursor-pointer flex items-center gap-1"
                     [disabled]="!hasPrevPage()"
