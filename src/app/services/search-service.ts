@@ -46,8 +46,8 @@ export class SearchService {
     return this.favoriteResults().some(article => String(article.pageId) === String(pageId));
   }
 
-  async fetchSearchResults(searchTerm: string, offset: number = 0) {
-    const response = await fetch(`https://pt.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchTerm)}&sroffset=${offset}&srlimit=10&format=json&origin=*`);
+  async fetchSearchResults(searchTerm: string, offset: number = 0, language: string) {
+    const response = await fetch(`https://${language}.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchTerm)}&sroffset=${offset}&srlimit=10&format=json&origin=*`);
     const data = await response.json() as WikiResponse;
     
     if (data.query && data.query.search) {

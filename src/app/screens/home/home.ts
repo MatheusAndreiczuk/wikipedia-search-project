@@ -41,7 +41,7 @@ export class Home {
    }
 
    async performSearch(searchTerm: string, offset: number = 0) {
-     await this.searchService.fetchSearchResults(searchTerm, offset);
+     await this.searchService.fetchSearchResults(searchTerm, offset, this.translationService.currentLang());
    }
 
    clearSearch() {
