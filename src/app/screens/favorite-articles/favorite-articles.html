@@ -1,4 +1,4 @@
-<h1 class="text-(--text-200) text-3xl mx-8 py-8 border-b-2 border-b-(--text-400)">Your favorited articles</h1>
+<h1 class="text-(--text-200) text-3xl mx-8 py-8 border-b-2 border-b-(--text-400)">{{ t().favoriteArticles.title }}</h1>
 
 <ul class="pt-10 mx-8">
     @for(article of favoriteService.favoriteResults(); track article.pageId){
@@ -16,7 +16,7 @@
             <button title="Remover {{article.title}} dos favoritos"
                 class="ml-2 cursor-pointer hover:scale-105 text-base text-red-500 font-semibold self-end sm:self-center"
                 (click)="removeFavoriteArticle(article.pageId)">
-                Remover
+                {{ t().favoriteArticles.removeButton }}
             </button>
         </span>
     </li>

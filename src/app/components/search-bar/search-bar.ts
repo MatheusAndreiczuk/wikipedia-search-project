@@ -1,6 +1,7 @@
 import { SearchService } from './../../services/search-service';
 import { Component, ElementRef, inject, output, signal, ViewChild, computed } from '@angular/core';
 import { LucideAngularModule, Search, Star, X } from "lucide-angular";
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -11,10 +12,12 @@ import { LucideAngularModule, Search, Star, X } from "lucide-angular";
 export class SearchBar {
   @ViewChild('searchInputRef') searchInputRef!: ElementRef<HTMLInputElement>;
   readonly searchService = inject(SearchService);
+  readonly translationService = inject(TranslationService);
   readonly searchIcon = Search;
   readonly starIcon = Star;
   readonly xIcon = X;
 
+  readonly t = this.translationService.t;
   search = output<string>();
   searchInput = computed(() => this.searchService.currentSearchTerm());
   isInputFocused = signal(false);

@@ -1,13 +1,12 @@
 <div class="flex flex-col h-full w-full bg-(--bg-100) p-4 md:p-8 overflow-y-auto">
     <div class="flex justify-between items-center mb-8 border-b-2 border-b-(--text-400)">
-        <h1 class="text-(--text-200) text-3xl py-8">Your favorited terms</h1>
+        <h1 class="text-(--text-200) text-3xl py-8">{{ t().favoriteGroups.title }}</h1>
         <button (click)="openCreateModal()" class="flex items-center gap-2 bg-(--bg-400) text-white px-4 py-2 rounded-sm hover:outline-1 hover:outline-(--bg-400) cursor-pointer">
             <i-lucide [name]="plusIcon"></i-lucide>
-            New group
+            {{ t().favoriteGroups.newGroup }}
         </button>
     </div>
 
-    <!-- Groups Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @for (group of searchService.favoriteGroups(); track group.id) {
             <div (click)="openGroupDetails(group)" 
@@ -17,40 +16,39 @@
                     <div class="p-3 rounded-full bg-(--bg-200)">
                         <i-lucide [name]="folderIcon" class="text-(--text-200)" [style.color]="group.color"></i-lucide>
                     </div>
-                    <span class="text-sm text-(--text-300)">{{ group.articles.length }} articles</span>
+                    <span class="text-sm text-(--text-300)">{{ group.articles.length }} {{ t().favoriteGroups.articlesWording }}</span>
                 </div>
                 <h3 class="text-xl font-semibold text-(--text-200) pl-4 mb-2">{{ group.name }}</h3>
-                <p class="text-(--text-300) pl-4 text-sm">Click to view details</p>
+                <p class="text-(--text-300) pl-4 text-sm">{{ t().favoriteGroups.clickDetails }}</p>
             </div>
         }
         @empty {
             <div class="col-span-full flex flex-col items-center justify-center py-12 text-(--text-300)">
                 <i-lucide [name]="folderIcon" class="w-16 h-16 mb-4 text-(--text-400)"></i-lucide>
-                <p class="text-lg">No groups created yet.</p>
-                <button (click)="openCreateModal()" class="mt-4 text-blue-500 hover:underline hover:scale-102 cursor-pointer">Create my first group</button>
+                <p class="text-lg">{{ t().favoriteGroups.noGroups }}</p>
+                <button (click)="openCreateModal()" class="mt-4 text-blue-500 hover:underline hover:scale-102 cursor-pointer">{{ t().favoriteGroups.newGroupLink }}</button>
             </div>
         }
     </div>
 </div>
 
-<!-- Create Group Modal -->
 @if (isCreateModalOpen()) {
     <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
         <div class="bg-(--bg-100) rounded-sm w-full max-w-md">
             <div class="p-6 border-b border-(--bg-300) flex justify-between items-center">
-                <h2 class="text-xl font-bold text-(--text-100)">Novo Grupo</h2>
+                <h2 class="text-xl font-bold text-(--text-100)">{{ t().favoriteGroups.newGroup }}</h2>
                 <button (click)="closeCreateModal()" class="text-(--text-300) hover:text-(--text-100) hover:scale-105 cursor-pointer">
                     <i-lucide [name]="closeIcon"></i-lucide>
                 </button>
             </div>
             <div class="p-6 space-y-4">
                 <div>
-                    <label class="text-sm font-medium text-(--text-200) mb-2">Nome do Grupo</label>
-                    <input type="text" [(ngModel)]="newGroupName" placeholder="Ex: História, Tecnologia..." 
+                    <label class="text-sm font-medium text-(--text-200) mb-2">{{ t().favoriteGroups.groupName }}</label>
+                    <input type="text" [(ngModel)]="newGroupName" placeholder="{{ t().favoriteGroups.nameGroupPlaceholder }}" 
                            class="w-full p-3 rounded-sm border border-(--bg-300) bg-(--bg-100) text-(--text-100) focus:outline-(--text-400)">
                 </div>
                 <div>
-                    <label class="text-sm text-(--text-200) mb-2">Cor de Identificação</label>
+                    <label class="text-sm text-(--text-200) mb-2">{{ t().favoriteGroups.colorGroup }}</label>
                     <div class="flex items-center gap-3">
                         <input type="color" [(ngModel)]="newGroupColor" class="h-10 w-20 cursor-pointer">
                         <span class="text-(--text-300)">{{ newGroupColor() }}</span>
@@ -58,10 +56,10 @@
                 </div>
             </div>
             <div class="p-6 border-t border-(--bg-300) flex justify-end gap-3">
-                <button (click)="closeCreateModal()" class="px-4 py-2 text-(--text-200) hover:bg-(--bg-200) rounded-md cursor-pointer">Cancelar</button>
+                <button (click)="closeCreateModal()" class="px-4 py-2 text-(--text-200) hover:bg-(--bg-200) rounded-md cursor-pointer">{{ t().favoriteGroups.cancel }}</button>
                 <button (click)="createGroup()" [disabled]="!newGroupName().trim()" 
                         class="px-4 py-2 bg-(--bg-400) text-white rounded-md hover:outline-1 hover:outline-(--bg-400) disabled:cursor-not-allowed cursor-pointer">
-                    Criar Grupo
+                    {{ t().favoriteGroups.addGroupButton }}
                 </button>
             </div>
         </div>
@@ -76,7 +74,7 @@
                     <div class="w-3 h-12" [style.background-color]="selectedGroup()?.color"></div>
                     <div>
                         <h2 class="text-2xl font-bold text-(--text-100)">{{ selectedGroup()?.name }}</h2>
-                        <p class="text-sm text-(--text-300)">{{ selectedGroup()?.articles?.length }} artigos</p>
+                        <p class="text-sm text-(--text-300)">{{ selectedGroup()?.articles?.length }} {{ t().favoriteGroups.articlesWording }}</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
@@ -93,8 +91,8 @@
                 @if (isAddArticleMode()) {
                     <div class="mb-6">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold text-(--text-100)">Adicionar Artigo aos Favoritos</h3>
-                            <button (click)="toggleAddArticleMode()" class="text-sm text-red-500 hover:underline hover:scale-102 cursor-pointer">Cancelar</button>
+                            <h3 class="text-lg font-semibold text-(--text-100)">{{ t().favoriteGroups.addArticleToFavorites }}</h3>
+                            <button (click)="toggleAddArticleMode()" class="text-sm text-red-500 hover:underline hover:scale-102 cursor-pointer">{{ t().favoriteGroups.cancel }}</button>
                         </div>
                         <div class="space-y-2">
                             @for (article of searchService.favoriteResults(); track article.pageId) {
@@ -107,10 +105,10 @@
                                 }
                             }
                             @empty {
-                                <p class="text-(--text-300) text-center py-4">Você não tem artigos favoritos para adicionar.</p>
+                                <p class="text-(--text-300) text-center py-4">{{ t().favoriteGroups.noFavoritesToAdd }}</p>
                             }
                             @if (areAllFavoritesInGroup()) {
-                                <p class="text-(--text-300) text-center py-4">Todos os seus favoritos já estão neste grupo.</p>
+                                <p class="text-(--text-300) text-center py-4">{{ t().favoriteGroups.allFavoritesInGroup }}</p>
                             }
                         </div>
                     </div>
@@ -118,7 +116,7 @@
                     <div class="flex justify-end mb-4">
                         <button (click)="toggleAddArticleMode()" class="flex items-center gap-2 text-(--text-200) px-3 py-1.5 rounded-lg cursor-pointer hover:scale-105">
                             <i-lucide [name]="plusIcon" class="w-5 h-5"></i-lucide>
-                            Adicionar Artigo
+                            {{ t().favoriteGroups.addArticle }}
                         </button>
                     </div>
 
@@ -136,8 +134,8 @@
                         }
                         @empty {
                             <div class="text-center py-12 text-(--text-300)">
-                                <p>Este grupo está vazio.</p>
-                                <button (click)="toggleAddArticleMode()" class="text-blue-500 hover:underline hover:scale-102 mt-2 cursor-pointer">Adicionar artigos</button>
+                                <p>{{ t().favoriteGroups.emptyGroup }}</p>
+                                <button (click)="toggleAddArticleMode()" class="text-blue-500 hover:underline hover:scale-102 mt-2 cursor-pointer">{{ t().favoriteGroups.addArticle }}</button>
                             </div>
                         }
                     </div>

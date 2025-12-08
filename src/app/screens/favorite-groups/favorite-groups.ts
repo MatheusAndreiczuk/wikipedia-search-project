@@ -5,6 +5,7 @@ import { IFavoriteGroupDTO } from '../../models/IFavoriteGroupDTO';
 import { IFavoriteResultsDTO } from '../../models/IFavoriteResultsDTO';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-favorite-groups',
@@ -14,12 +15,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class FavoriteGroups {
   readonly searchService = inject(SearchService);
+  readonly translationService = inject(TranslationService);
   
   readonly plusIcon = Plus;
   readonly trashIcon = Trash2;
   readonly closeIcon = X;
   readonly folderIcon = Folder;
   readonly externalLinkIcon = ExternalLink;
+  readonly t = this.translationService.t;
 
   isCreateModalOpen = signal(false);
   isDetailsModalOpen = signal(false);

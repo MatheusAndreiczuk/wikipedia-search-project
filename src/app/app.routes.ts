@@ -5,6 +5,7 @@ import { FavoriteArticles } from './screens/favorite-articles/favorite-articles'
 import { ArticleView } from './screens/article-view/article-view';
 import { HistoryScreen } from './screens/history/history';
 import { FavoriteGroups } from './screens/favorite-groups/favorite-groups';
+import { Settings } from './screens/settings/settings';
 
 export const routes: Routes = [
     {
@@ -30,5 +31,10 @@ export const routes: Routes = [
     {
         path: 'history',
         component: HistoryScreen,
+    },
+    {
+        path: 'settings',
+        component: Settings,
     }
 ];
+

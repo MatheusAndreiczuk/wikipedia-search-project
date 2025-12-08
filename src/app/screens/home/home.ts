@@ -1,6 +1,7 @@
 import { Component, computed, inject, effect } from '@angular/core';
 import { SearchBar } from "../../components/search-bar/search-bar";
 import { SearchService } from '../../services/search-service';
+import { TranslationService } from '../../services/translation.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Star, LucideAngularModule, ArrowLeft, ArrowRight } from "lucide-angular";
 import { IFavoriteResultsDTO } from '../../models/IFavoriteResultsDTO';
@@ -13,7 +14,10 @@ import { IFavoriteResultsDTO } from '../../models/IFavoriteResultsDTO';
 })
 export class Home {
    readonly searchService = inject(SearchService);
+   readonly translationService = inject(TranslationService);
    readonly route = inject(ActivatedRoute);
+   
+   readonly t = this.translationService.t;
    readonly hasSearchResults = computed(() => this.searchService.searchResults().length > 0);
    readonly starIcon = Star;
    readonly arrowLeft = ArrowLeft;

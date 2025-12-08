@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MenuItem } from "./menu-item/menu-item";
+import { TranslationService } from '../../../services/translation.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,5 +9,6 @@ import { MenuItem } from "./menu-item/menu-item";
   styleUrls: ['./menu.css'],
 })
 export class Menu {
-
+  readonly translationService = inject(TranslationService);
+  readonly t = this.translationService.t;
 }

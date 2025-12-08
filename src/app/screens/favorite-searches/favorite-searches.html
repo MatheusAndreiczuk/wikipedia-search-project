@@ -1,4 +1,4 @@
-<h1 class="text-(--text-200) text-3xl mx-3 sm:mx-8 py-8 border-b-2 border-b-(--text-400)">Your favorited terms</h1>
+<h1 class="text-(--text-200) text-3xl mx-3 sm:mx-8 py-8 border-b-2 border-b-(--text-400)">{{ t().favoriteSearches.title }}</h1>
 
 <ul class="pt-10 mx-3 sm:mx-8">
     @for(term of favoriteService.favoriteTerms(); track term){
@@ -13,7 +13,7 @@
         <button title="Remover {{term}} dos favoritos" 
             class="sm:ml-2 cursor-pointer hover:scale-105 text-base text-red-500 font-semibold" 
             (click)="removeFavoriteTerm(term)">
-            <span class="hidden sm:inline">Remover</span>
+            <span class="hidden sm:inline">{{ t().favoriteSearches.removeButton }}</span>
             <i-lucide [name]="xIcon" class="inline sm:hidden shrink" ></i-lucide>
         </button>
     </li>

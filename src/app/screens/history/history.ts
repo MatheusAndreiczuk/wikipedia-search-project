@@ -1,5 +1,6 @@
 import { Component, inject, computed, signal } from '@angular/core';
 import { SearchService } from '../../services/search-service';
+import { TranslationService } from '../../services/translation.service';
 import { Router } from '@angular/router';
 import { LucideAngularModule, History, Search, FileText, XIcon, Calendar } from 'lucide-angular';
 import { IHistoryItemDTO, IHistoryFiltersDTO } from '../../models/IHistoryItemDTO';
@@ -14,8 +15,10 @@ import { DateInputMaskDirective } from '../../directives/date-input-mask.directi
 })
 export class HistoryScreen {
   readonly searchService = inject(SearchService);
+  readonly translationService = inject(TranslationService);
   private router = inject(Router);
 
+  readonly t = this.translationService.t;
   readonly historyIcon = History;
   readonly searchIcon = Search;
   readonly articleIcon = FileText;

@@ -11,7 +11,7 @@
             <div class="flex justify-start mb-2 pl-1">
                 <button (click)="clearSearch()" 
                     class="text-sm sm:text-base text-(--text-300) hover:text-(--text-200) cursor-pointer hover:scale-105">
-                    Limpar Resultados
+                    {{ t().home.clearSearch }}
                 </button>
             </div>
         }
@@ -19,8 +19,7 @@
         <div class="w-full h-full border border-(--bg-300) rounded-sm bg-(--bg-100) p-5">
             <ul>
                 @if(!hasSearchResults() && this.searchService.hasSearched()){
-                <p class="text-(--text-400)">Resultados não encontrados. Por favor, tente novamente ou digite outro
-                    termo.</p>
+                <p class="text-(--text-400)">{{ t().home.noResults }}</p>
                 } @else {
                 @for(item of searchService.searchResults(); track item.pageid){
                 <li class="flex flex-col mb-6 last:mb-0">
@@ -34,7 +33,7 @@
                         <button class="flex items-top justify-end gap-1 h-10 px-4 font-semibold text-(--text-200) whitespace-nowrap cursor-pointer hover:scale-105"
                             (click)="addFavoriteResult({title: item.title, snippet: item.snippet, pageId: item.pageid.toString()})">
                             <i-lucide [name]="starIcon" color="#cdd016"></i-lucide>
-                            <span>Favorite article</span>
+                            <span>{{ t().home.favoriteArticle }}</span>
                         </button>
                         } @else {
                             <div class="flex items-top gap-1 h-10 px-4 justify-end
@@ -49,7 +48,7 @@
                                     GHjbJ0//G3YsFPiiAb5noAPpMA18MGDgfTjwznlJ01LwBmip5V/btq9NTG3ibPKAeQPaOmPuK0SnQzBAlw0aGDZvwOS8IDxh3oDmeZ9AC8Vx0I0Fn8/Mm4WfS22tee/
                                     p/Zp8cefoismpOCQ5Ruhzkw4UME3bzBnI20cbrN9v7hCeT2xvUoChhpcDOYN/hiBrn68B/ss9PWb6dvnOI7xz5cbhe40OnjNnoPI0KvTbndiy1t62880md7vHdOGfFQ
                                     auBUtd+UKh1yt7II2MnQws71u71+2i5j/Q9CqovNUvcpeKuetxZKwB5x2m8nfV1f+ov0WA2bF0AkOGAAAAAElFTkSuQmCC" alt="filled-star--v1">
-                                <span>Favorited article</span>
+                                <span>{{ t().home.favoritedArticle }}</span>
                             </div>
                             }
                     </p>

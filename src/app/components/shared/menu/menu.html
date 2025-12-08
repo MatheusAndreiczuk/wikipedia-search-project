@@ -1,9 +1,10 @@
 <nav>
     <ul class="flex flex-col gap-7 py-5 px-7 text-lg">
-        <app-menu-item title="Home" route=""/>
-        <app-menu-item title="Favorited terms" route="/favoritedTerms"/>
-        <app-menu-item title="Favorited articles" route="/favoritedArticles"/>
-        <app-menu-item title="Favorite groups" route="/favoriteGroups"/>
-        <app-menu-item title="History" route="/history"/>
+        <app-menu-item [title]="t().menu.home" route=""/>
+        <app-menu-item [title]="t().menu.favoritedTerms" route="/favoritedTerms"/>
+        <app-menu-item [title]="t().menu.favoritedArticles" route="/favoritedArticles"/>
+        <app-menu-item [title]="t().menu.favoriteGroups" route="/favoriteGroups"/>
+        <app-menu-item [title]="t().menu.history" route="/history"/>
+        <app-menu-item [title]="t().menu.settings" route="/settings"/>
     </ul>
 </nav>
