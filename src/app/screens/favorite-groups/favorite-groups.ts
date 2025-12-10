@@ -7,10 +7,13 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslationService } from '../../services/translation.service';
 import { ConfirmationModal } from '../../components/shared/confirmation-modal/confirmation-modal';
+import { PageHeader } from '../../components/shared/page-header/page-header';
+import { EmptyState } from '../../components/shared/empty-state/empty-state';
+import { FavoriteGroupCard } from '../../components/favorite-group-card/favorite-group-card';
 
 @Component({
   selector: 'app-favorite-groups',
-  imports: [LucideAngularModule, RouterLink, FormsModule, ConfirmationModal],
+  imports: [LucideAngularModule, RouterLink, FormsModule, ConfirmationModal, PageHeader, EmptyState, FavoriteGroupCard],
   templateUrl: './favorite-groups.html',
   styleUrl: './favorite-groups.css'
 })

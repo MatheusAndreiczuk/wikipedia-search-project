@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+    --breakpoint-xs: 400px;
+}
+
 :root {
     --accent-200:#ffc993;
     --text-100:#000000;

@@ -1,4 +1,6 @@
-<h1 class="text-(--text-200) text-3xl mx-3 sm:mx-8 py-8 border-b-2 border-b-(--text-400)">{{ t().favoriteSearches.title }}</h1>
+<div class="mx-3 sm:mx-8 mt-8">
+    <app-page-header [title]="t().favoriteSearches.title"></app-page-header>
+</div>
 
 <ul class="pt-10 mx-3 sm:mx-8">
     @for(term of favoriteService.favoriteTerms(); track term){

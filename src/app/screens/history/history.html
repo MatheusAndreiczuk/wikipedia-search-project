@@ -1,26 +1,18 @@
 <div class="flex flex-col h-full w-full bg-(--bg-100) overflow-y-auto">
     <div class="p-2 mt-4 md:p-6 lg:p-8 max-w-5xl mx-auto w-full">
         
-        <div class="flex justify-between items-center border-b border-(--bg-300) pb-4 sm:pl-5">
-            <h1 class="text-2xl sm:text-3xl font-semibold text-(--text-100) flex items-center gap-3">
-                <i-lucide [name]="historyIcon" class="w-8 h-8 hidden sm:inline-flex"></i-lucide>
-                {{ t().history.title }}
-            </h1>
-            
+        <app-page-header [title]="t().history.title" [icon]="historyIcon">
             @if (searchService.historyItems().length > 0) {
-                <button (click)="clearHistory()" 
+                <button actions (click)="clearHistory()" 
                     class="flex items-center gap-2 p-2 text-red-500 hover:scale-105 rounded-lg text-sm sm:text-base cursor-pointer">
                     <i-lucide [name]="trashIcon" class="w-4 h-4 hidden sm:inline-flex"></i-lucide>
                     {{ t().history.clearHistory }}
                 </button>
             }
-        </div>
+        </app-page-header>
 
         @if (searchService.historyItems().length === 0) {
-            <div class="flex flex-col items-center justify-center py-20 text-(--text-300)">
-                <i-lucide [name]="historyIcon" class="w-16 h-16 text-(--bg-300)"></i-lucide>
-                <p class="text-xl mt-3">{{ t().history.empty }}</p>
-            </div>
+            <app-empty-state [message]="t().history.empty" [icon]="historyIcon"></app-empty-state>
         } @else {
             <div class="flex flex-wrap justify-between items-end gap-4 mt-6 mb-4 md:pl-6">
                 <button (click)="resetFilters()" 
@@ -31,7 +23,7 @@
                 </button>
 
                 <div class="flex flex-wrap sm:justify-end justify-center items-center gap-3">
-                    <div class="relative flex items-center gap-2 bg-(--bg-200) px-3 py-2 rounded-sm shadow hover:outline hover:outline-(--text-300) cursor-pointer"
+                    <div class="relative flex items-center gap-2 bg-(--bg-200) px-3 py-2 rounded-sm shadow hover:outline hover:outline-(--text-300) cursor-pointer max-w-48"
                         (click)="focusDateInput(startDateInput)">
                         <i-lucide [name]="calendarIcon" class="w-4 h-4 text-(--text-300)"
                             (click)="openCalendar($event, startDatePicker)"></i-lucide>
@@ -42,7 +34,7 @@
                             (change)="onDateSelect($event.target.value, 'start')">
                     </div>
 
-                    <div class="relative flex items-center gap-2 bg-(--bg-200) px-3 py-2 rounded-sm shadow hover:outline hover:outline-(--text-300) cursor-pointer"
+                    <div class="relative flex items-center gap-2 bg-(--bg-200) px-3 py-2 rounded-sm shadow hover:outline hover:outline-(--text-300) cursor-pointer max-w-48"
                         (click)="focusDateInput(endDateInput)">
                         <i-lucide [name]="calendarIcon" class="w-4 h-4 text-(--text-300)"
                             (click)="openCalendar($event, endDatePicker)"></i-lucide>
@@ -69,7 +61,7 @@
             <div class="flex flex-col gap-2">
                 @for (item of filteredHistoryItems(); track item.timestamp) {
                     <div (click)="navigateToItem(item)" 
-                        class="group flex items-center justify-between sm:px-4 py-2 hover:bg-[#F8F8F8] rounded-sm cursor-pointer border border-transparent hover:border-(--bg-300)">
+                        class="group flex flex-col items-start sm:items-center sm:flex-row justify-between sm:px-4 py-2 hover:bg-[#F8F8F8] rounded-sm cursor-pointer border border-transparent hover:border-(--bg-300)">
                         
                         <div class="flex items-center gap-5">
                             <div class="px-2 text-(--text-200) hidden sm:inline-flex">
@@ -88,7 +80,7 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center sm:gap-4">
+                        <div class="flex items-center sm:gap-4 justify-between w-full sm:w-auto mt-2 sm:mt-0 gap-6">
                             <span class="text-sm text-(--text-300) whitespace-nowrap">
                                 {{ formatDate(item.timestamp) }}
                             </span>
@@ -96,7 +88,8 @@
                             <button (click)="removeSingleItem(item, $event)" 
                                 class="flex sm:group-hover:flex p-1 text-red-500 cursor-pointer hover:scale-105" 
                                 title="Remover item">
-                                <i-lucide [name]="trashIcon" class="w-5 h-5"></i-lucide>
+                                <span class="sm:hidden">Remover</span>
+                                <i-lucide [name]="trashIcon" class="w-5 h-5 hidden sm:inline-flex"></i-lucide>
                             </button>
                         </div>
                     </div>

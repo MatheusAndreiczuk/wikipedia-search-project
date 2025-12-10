@@ -4,10 +4,11 @@ import { SearchService } from '../../services/search-service';
 import { Router } from '@angular/router';
 import { LucideAngularModule, XIcon } from 'lucide-angular';
 import { ConfirmationModal } from '../../components/shared/confirmation-modal/confirmation-modal';
+import { PageHeader } from '../../components/shared/page-header/page-header';
 
 @Component({
   selector: 'app-favorite-searches',
-  imports: [LucideAngularModule, ConfirmationModal],
+  imports: [LucideAngularModule, ConfirmationModal, PageHeader],
   templateUrl: './favorite-searches.html',
   styleUrl: './favorite-searches.css',
 })

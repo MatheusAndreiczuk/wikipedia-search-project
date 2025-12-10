@@ -7,7 +7,7 @@
             <div class="p-6">
                 <p class="text-(--text-200)">{{ message() }}</p>
             </div>
-            <div class="p-6 border-t border-(--bg-300) flex justify-end gap-3">
+            <div class="p-6 border-t border-(--bg-300) flex flex-col xs:flex-row justify-end gap-3">
                 <button (click)="onCancel()" class="px-4 py-2 text-(--text-200) hover:bg-(--bg-200) rounded-sm cursor-pointer">
                     {{ cancelText() }}
                 </button>

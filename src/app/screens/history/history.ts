@@ -7,11 +7,13 @@ import { IHistoryItemDTO, IHistoryFiltersDTO } from '../../models/IHistoryItemDT
 import { FormsModule } from '@angular/forms';
 import { DateInputMaskDirective } from '../../directives/date-input-mask.directive';
 import { ConfirmationModal } from '../../components/shared/confirmation-modal/confirmation-modal';
+import { PageHeader } from '../../components/shared/page-header/page-header';
+import { EmptyState } from '../../components/shared/empty-state/empty-state';
 
 @Component({
   selector: 'app-history',
   standalone: true,
-  imports: [LucideAngularModule, FormsModule, DateInputMaskDirective, ConfirmationModal],
+  imports: [LucideAngularModule, FormsModule, DateInputMaskDirective, ConfirmationModal, PageHeader, EmptyState],
   templateUrl: './history.html',
 })
 export class HistoryScreen {
