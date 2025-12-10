@@ -1,14 +1,15 @@
-import { Component, computed, inject, effect } from '@angular/core';
+import { Component, computed, inject, effect, DOCUMENT } from '@angular/core';
 import { SearchBar } from "../../components/search-bar/search-bar";
 import { SearchService } from '../../services/search-service';
 import { TranslationService } from '../../services/translation.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Star, LucideAngularModule, ArrowLeft, ArrowRight } from "lucide-angular";
 import { IFavoriteResultsDTO } from '../../models/IFavoriteResultsDTO';
+import { SearchResultItem } from '../../components/search-result-item/search-result-item';
 
 @Component({
   selector: 'app-home',
-  imports: [SearchBar, LucideAngularModule, RouterLink],
+  imports: [SearchBar, LucideAngularModule, SearchResultItem],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -16,6 +17,7 @@ export class Home {
    readonly searchService = inject(SearchService);
    readonly translationService = inject(TranslationService);
    readonly route = inject(ActivatedRoute);
+  private document = inject(DOCUMENT);
    
    readonly t = this.translationService.t;
    readonly hasSearchResults = computed(() => this.searchService.searchResults().length > 0);
@@ -40,6 +42,15 @@ export class Home {
      });
    }
 
+   scrollToMainContent() {
+    setTimeout(() => {
+      const main = this.document.querySelector('main');
+      if (main) {
+        main.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 50);
+  }
+
    async performSearch(searchTerm: string, offset: number = 0) {
      await this.searchService.fetchSearchResults(searchTerm, offset, this.translationService.currentLang());
    }
@@ -51,12 +62,14 @@ export class Home {
    nextPage() {
      if (this.hasNextPage()) {
        this.performSearch(this.searchService.currentSearchTerm(), this.searchService.currentOffset() + 10);
+       this.scrollToMainContent();
      }
    }
 
    prevPage() {
      if (this.hasPrevPage()) {
        this.performSearch(this.searchService.currentSearchTerm(), this.searchService.currentOffset() - 10);
+       this.scrollToMainContent();
      }
    }
 

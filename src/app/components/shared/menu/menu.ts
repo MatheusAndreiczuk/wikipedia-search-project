@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { MenuItem } from "./menu-item/menu-item";
 import { TranslationService } from '../../../services/translation.service';
 
@@ -11,4 +11,6 @@ import { TranslationService } from '../../../services/translation.service';
 export class Menu {
   readonly translationService = inject(TranslationService);
   readonly t = this.translationService.t;
+  
+  readonly menuClick = output<void>();
 }

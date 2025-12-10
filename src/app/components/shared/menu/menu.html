@@ -1,4 +1,4 @@
-<nav>
+<nav (click)="menuClick.emit()">
     <ul class="flex flex-col gap-7 py-5 px-7 text-lg">
         <app-menu-item [title]="t().menu.home" route=""/>
         <app-menu-item [title]="t().menu.favoritedTerms" route="/favoritedTerms"/>
