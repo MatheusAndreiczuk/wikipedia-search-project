@@ -1,0 +1,11 @@
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-(--bg-300) pb-4 gap-4 sm:gap-0">
+    <h1 class="text-2xl sm:text-3xl font-semibold text-(--text-100) flex items-center gap-3">
+        @if (icon()) {
+            <i-lucide [name]="icon()" class="w-8 h-8 hidden sm:inline-flex"></i-lucide>
+        }
+        {{ title() }}
+    </h1>
+    <div class="w-full sm:w-auto flex justify-center sm:justify-end">
+        <ng-content select="[actions]"></ng-content>
+    </div>
+</div>

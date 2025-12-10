@@ -1,0 +1,23 @@
+<li class="flex flex-col mb-6 last:mb-0">
+    <span>
+        <a [routerLink]="['/article', item().pageid]"
+            class="hover:underline text-[#2316AE] font-semibold text-lg cursor-pointer">{{item().title}}</a>
+    </span>
+    <div class="flex flex-col lg:flex-row justify-between">
+        <span [innerHTML]="item().snippet + ' ...'" ></span>
+        @if(!isFavorited()){
+        <button class="flex items-top justify-end gap-1 h-10 px-4 font-semibold text-(--text-200) whitespace-nowrap cursor-pointer hover:scale-105"
+            (click)="onToggleFavorite()">
+            <i-lucide [name]="starIcon" color="#cdd016"></i-lucide>
+            <span>{{ t().home.favoriteArticle }}</span>
+        </button>
+        } @else {
+            <div class="flex items-top gap-1 h-10 px-4 justify-end
+                font-semibold text-(--text-200) whitespace-nowrap
+                sm:h-11 sm:text-md lg:ml-3">
+                <img class="h-6 w-6" src="assets/filled-star.png" alt="filled-star--v1">
+                <span>{{ t().home.favoritedArticle }}</span>
+            </div>
+        }
+    </div>
+</li>
