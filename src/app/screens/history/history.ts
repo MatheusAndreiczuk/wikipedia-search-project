@@ -2,7 +2,7 @@ import { Component, inject, computed, signal } from '@angular/core';
 import { SearchService } from '../../services/search-service';
 import { TranslationService } from '../../services/translation.service';
 import { Router } from '@angular/router';
-import { LucideAngularModule, History, Search, FileText, XIcon, Calendar } from 'lucide-angular';
+import { LucideAngularModule, History, Search, FileText, XIcon, Calendar, ChevronDown } from 'lucide-angular';
 import { IHistoryItemDTO, IHistoryFiltersDTO } from '../../models/IHistoryItemDTO';
 import { FormsModule } from '@angular/forms';
 import { DateInputMaskDirective } from '../../directives/date-input-mask.directive';
@@ -24,6 +24,7 @@ export class HistoryScreen {
   readonly articleIcon = FileText;
   readonly trashIcon = XIcon;
   readonly calendarIcon = Calendar;
+  readonly chevronDownIcon = ChevronDown;
 
   readonly order = signal<IHistoryFiltersDTO['order']>('newest');
   readonly startDate = signal<string>('');

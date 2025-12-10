@@ -5,20 +5,14 @@ export const PT = {
         favoritedArticles: 'Artigos Favoritos',
         favoriteGroups: 'Grupos Favoritos',
         history: 'Histórico',
-        settings: 'Configurações'
+        settings: 'Idioma'
     },
     settings: {
-        title: 'Configurações',
-        theme: 'Tema',
-        language: 'Idioma do Sistema',
-        searchLanguage: 'Idioma da Pesquisa',
+        title: 'Idioma',
+        language: 'Idioma do Sistema e Pesquisas',
         selectLanguage: 'Selecione o idioma',
         englishLanguage: 'Inglês',
         portugueseLanguage: 'Português',
-        themes: {
-            light: 'Claro',
-            dark: 'Escuro'
-        }
     },
     home: {
         searchPlaceholder: 'Pesquisar na Wikipedia',
@@ -76,20 +70,14 @@ export const EN = {
         favoritedArticles: 'Favorited Articles',
         favoriteGroups: 'Favorite Groups',
         history: 'History',
-        settings: 'Settings'
+        settings: 'Language'
     },
     settings: {
-        title: 'Settings',
-        theme: 'Theme',
-        language: 'System Language',
-        searchLanguage: 'Search Language',
+        title: 'Language',
+        language: 'System and Search Language',
         selectLanguage: 'Select language',
         englishLanguage: 'English',
         portugueseLanguage: 'Portuguese',
-        themes: {
-            light: 'Light',
-            dark: 'Dark'
-        }
     },
     home: {
         searchPlaceholder: 'Search in Wikipedia',

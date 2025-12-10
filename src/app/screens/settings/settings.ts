@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { LucideAngularModule, Settings as SettingsIcon } from "lucide-angular";
+import { LucideAngularModule, Languages } from "lucide-angular";
 import { TranslationService, Language } from '../../services/translation.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { TranslationService, Language } from '../../services/translation.service
 })
 export class Settings {
     readonly translationService = inject(TranslationService);
-    readonly settingsIcon = SettingsIcon;
+    readonly languageIcon = Languages;
     
     readonly t = this.translationService.t;
     readonly currentLang = this.translationService.currentLang;

@@ -1,7 +1,7 @@
 <div class="flex flex-col h-full w-full bg-(--bg-100) p-4 md:p-8 overflow-y-auto">
-    <div class="flex justify-between items-center mb-8 border-b-2 border-b-(--text-400)">
-        <h1 class="text-(--text-200) text-3xl py-8">{{ t().favoriteGroups.title }}</h1>
-        <button (click)="openCreateModal()" class="flex items-center gap-2 bg-(--bg-400) text-white px-4 py-2 rounded-sm hover:outline-1 hover:outline-(--bg-400) cursor-pointer">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 border-b-2 border-b-(--text-400) gap-4 sm:gap-0">
+        <h1 class="text-(--text-200) text-3xl py-4 sm:py-8">{{ t().favoriteGroups.title }}</h1>
+        <button (click)="openCreateModal()" class="flex items-center gap-2 bg-(--bg-400) text-white px-4 py-2 rounded-sm hover:outline-1 hover:outline-(--bg-400) cursor-pointer w-full sm:w-auto justify-center mb-4 sm:mb-0">
             <i-lucide [name]="plusIcon"></i-lucide>
             {{ t().favoriteGroups.newGroup }}
         </button>
@@ -69,19 +69,23 @@
 @if (isDetailsModalOpen() && selectedGroup()) {
     <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
         <div class="bg-(--bg-100) rounded-xl w-full max-w-2xl h-[80vh] flex flex-col">
-            <div class="p-6 border-b border-(--bg-300) flex justify-between items-center">
-                <div class="flex items-center gap-3">
+            <div class="p-4 sm:p-6 border-b border-(--bg-300) flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+                <div class="flex items-center gap-3 w-full sm:w-auto">
                     <div class="w-3 h-12" [style.background-color]="selectedGroup()?.color"></div>
-                    <div>
-                        <h2 class="text-2xl font-bold text-(--text-100)">{{ selectedGroup()?.name }}</h2>
+                    <div class="flex-1 sm:flex-none">
+                        <h2 class="text-xl sm:text-2xl font-bold text-(--text-100) break-all">{{ selectedGroup()?.name }}</h2>
                         <p class="text-sm text-(--text-300)">{{ selectedGroup()?.articles?.length }} {{ t().favoriteGroups.articlesWording }}</p>
                     </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button (click)="deleteGroup(selectedGroup()!.id)" class="p-2 text-red-500 hover:scale-105 cursor-pointer" title="Excluir Grupo">
-                        <i-lucide [name]="trashIcon"></i-lucide>
+                    <button (click)="closeDetailsModal()" class="p-2 sm:hidden text-(--text-300) hover:text-(--text-100) hover:scale-105 cursor-pointer">
+                        <i-lucide [name]="closeIcon"></i-lucide>
                     </button>
-                    <button (click)="closeDetailsModal()" class="p-2 text-(--text-300) hover:text-(--text-100) hover:scale-105 cursor-pointer">
+                </div>
+                <div class="flex items-center gap-2 self-end sm:self-auto">
+                    <button (click)="deleteGroup(selectedGroup()!.id)" class="p-2 text-red-500 hover:scale-105 cursor-pointer" title="Excluir Grupo">
+                        <!-- <i-lucide [name]="trashIcon"></i-lucide> -->
+                         Excluir grupo
+                    </button>
+                    <button (click)="closeDetailsModal()" class="p-2 hidden sm:inline-flex text-(--text-300) hover:text-(--text-100) hover:scale-105 cursor-pointer">
                         <i-lucide [name]="closeIcon"></i-lucide>
                     </button>
                 </div>
@@ -113,12 +117,14 @@
                         </div>
                     </div>
                 } @else {
+                    @if (selectedGroup()?.articles?.length) {
                     <div class="flex justify-end mb-4">
                         <button (click)="toggleAddArticleMode()" class="flex items-center gap-2 text-(--text-200) px-3 py-1.5 rounded-lg cursor-pointer hover:scale-105">
                             <i-lucide [name]="plusIcon" class="w-5 h-5"></i-lucide>
                             {{ t().favoriteGroups.addArticle }}
                         </button>
                     </div>
+                    }
 
                     <div class="space-y-3">
                         @for (article of selectedGroup()?.articles; track article.pageId) {
