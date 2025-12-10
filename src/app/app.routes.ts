@@ -1,40 +1,33 @@
 import { Routes } from '@angular/router';
-import { Home } from './screens/home/home';
-import { FavoriteSearches } from './screens/favorite-searches/favorite-searches';
-import { FavoriteArticles } from './screens/favorite-articles/favorite-articles';
-import { ArticleView } from './screens/article-view/article-view';
-import { HistoryScreen } from './screens/history/history';
-import { FavoriteGroups } from './screens/favorite-groups/favorite-groups';
-import { Settings } from './screens/settings/settings';
 
 export const routes: Routes = [
     {
         path: '',
-        component: Home,
+        loadComponent: () => import('./screens/home/home').then(m => m.Home),
     },
     {
         path: 'favoritedTerms',
-        component: FavoriteSearches,
+        loadComponent: () => import('./screens/favorite-searches/favorite-searches').then(m => m.FavoriteSearches),
     },
     {
         path: 'favoritedArticles',
-        component: FavoriteArticles,
+        loadComponent: () => import('./screens/favorite-articles/favorite-articles').then(m => m.FavoriteArticles),
     },
     {
         path: 'favoriteGroups',
-        component: FavoriteGroups,
+        loadComponent: () => import('./screens/favorite-groups/favorite-groups').then(m => m.FavoriteGroups),
     },
     {
         path: 'article/:id',
-        component: ArticleView,
+        loadComponent: () => import('./screens/article-view/article-view').then(m => m.ArticleView),
     },
     {
         path: 'history',
-        component: HistoryScreen,
+        loadComponent: () => import('./screens/history/history').then(m => m.HistoryScreen),
     },
     {
         path: 'settings',
-        component: Settings,
+        loadComponent: () => import('./screens/settings/settings').then(m => m.Settings),
     }
 ];
 
