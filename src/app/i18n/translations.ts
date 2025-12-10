@@ -56,10 +56,26 @@ export const PT = {
         emptyGroup: 'Este grupo está vazio.',
         nameGroupPlaceholder: 'Ex: História, Tecnologia...',
         addGroupButton: 'Adicionar grupo',
+        removeGroup: 'Excluir grupo',
     },
     favoriteArticles: {
         title: 'Artigos Favoritos',
         removeButton: 'Remover',
+    },
+    confirmationModal: {
+        confirm: 'Confirmar',
+        cancel: 'Cancelar',
+        deleteGroupTitle: 'Excluir Grupo',
+        deleteGroupMessage: 'Tem certeza que deseja excluir este grupo?',
+        removeArticleFromGroupTitle: 'Remover Artigo',
+        removeArticleFromGroupMessage: 'Tem certeza que deseja remover este artigo do grupo?',
+        clearHistoryTitle: 'Limpar Histórico',
+        clearHistoryMessage: 'Tem certeza que deseja limpar todo o histórico?',
+        clearFilteredHistoryMessage: 'Tem certeza que deseja remover os itens filtrados do histórico?',
+        removeFavoriteTermTitle: 'Remover Termo Favorito',
+        removeFavoriteTermMessage: 'Tem certeza que deseja remover este termo dos favoritos?',
+        removeFavoriteArticleTitle: 'Remover Artigo Favorito',
+        removeFavoriteArticleMessage: 'Tem certeza que deseja remover este artigo dos favoritos?',
     }
 };
 
@@ -121,9 +137,25 @@ export const EN = {
         emptyGroup: 'This group is empty.',
         nameGroupPlaceholder: 'Ex: History, Technology...',
         addGroupButton: 'Add group',
+        removeGroup: 'Delete group',
     },
     favoriteArticles: {
         title: 'Favorited Articles',
         removeButton: 'Remove',
+    },
+    confirmationModal: {
+        confirm: 'Confirm',
+        cancel: 'Cancel',
+        deleteGroupTitle: 'Delete Group',
+        deleteGroupMessage: 'Are you sure you want to delete this group?',
+        removeArticleFromGroupTitle: 'Remove Article',
+        removeArticleFromGroupMessage: 'Are you sure you want to remove this article from the group?',
+        clearHistoryTitle: 'Clear History',
+        clearHistoryMessage: 'Are you sure you want to clear the entire history?',
+        clearFilteredHistoryMessage: 'Are you sure you want to remove the filtered items from the history?',
+        removeFavoriteTermTitle: 'Remove Favorite Term',
+        removeFavoriteTermMessage: 'Are you sure you want to remove this term from favorites?',
+        removeFavoriteArticleTitle: 'Remove Favorite Article',
+        removeFavoriteArticleMessage: 'Are you sure you want to remove this article from favorites?',
     }
 };

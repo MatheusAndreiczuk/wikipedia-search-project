@@ -6,10 +6,11 @@ import { IFavoriteResultsDTO } from '../../models/IFavoriteResultsDTO';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslationService } from '../../services/translation.service';
+import { ConfirmationModal } from '../../components/shared/confirmation-modal/confirmation-modal';
 
 @Component({
   selector: 'app-favorite-groups',
-  imports: [LucideAngularModule, RouterLink, FormsModule],
+  imports: [LucideAngularModule, RouterLink, FormsModule, ConfirmationModal],
   templateUrl: './favorite-groups.html',
   styleUrl: './favorite-groups.css'
 })
@@ -28,6 +29,10 @@ export class FavoriteGroups {
   isDetailsModalOpen = signal(false);
   isAddArticleMode = signal(false);
   
+  isDeleteGroupModalOpen = signal(false);
+  isRemoveArticleModalOpen = signal(false);
+  articleToRemove = signal<string | null>(null);
+
   selectedGroup = signal<IFavoriteGroupDTO | null>(null);
   
   newGroupName = signal('');
@@ -62,9 +67,15 @@ export class FavoriteGroups {
   }
 
   deleteGroup(groupId: string) {
-    if (confirm('Tem certeza que deseja excluir este grupo?')) {
-      this.searchService.removeFavoriteGroup(groupId);
+    this.isDeleteGroupModalOpen.set(true);
+  }
+
+  onConfirmDeleteGroup() {
+    const group = this.selectedGroup();
+    if (group) {
+      this.searchService.removeFavoriteGroup(group.id);
       this.closeDetailsModal();
+      this.isDeleteGroupModalOpen.set(false);
     }
   }
 
@@ -85,13 +96,21 @@ export class FavoriteGroups {
   }
 
   removeArticleFromGroup(articleId: string) {
+    this.articleToRemove.set(articleId);
+    this.isRemoveArticleModalOpen.set(true);
+  }
+
+  onConfirmRemoveArticle() {
     const group = this.selectedGroup();
-    if (group) {
+    const articleId = this.articleToRemove();
+    if (group && articleId) {
       this.searchService.removeArticleFromGroup(group.id, articleId);
       const updatedGroup = this.searchService.favoriteGroups().find(g => g.id === group.id);
       if (updatedGroup) {
         this.selectedGroup.set(updatedGroup);
       }
+      this.isRemoveArticleModalOpen.set(false);
+      this.articleToRemove.set(null);
     }
   }
 

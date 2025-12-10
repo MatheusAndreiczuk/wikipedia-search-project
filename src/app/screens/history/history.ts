@@ -6,11 +6,12 @@ import { LucideAngularModule, History, Search, FileText, XIcon, Calendar, Chevro
 import { IHistoryItemDTO, IHistoryFiltersDTO } from '../../models/IHistoryItemDTO';
 import { FormsModule } from '@angular/forms';
 import { DateInputMaskDirective } from '../../directives/date-input-mask.directive';
+import { ConfirmationModal } from '../../components/shared/confirmation-modal/confirmation-modal';
 
 @Component({
   selector: 'app-history',
   standalone: true,
-  imports: [LucideAngularModule, FormsModule, DateInputMaskDirective],
+  imports: [LucideAngularModule, FormsModule, DateInputMaskDirective, ConfirmationModal],
   templateUrl: './history.html',
 })
 export class HistoryScreen {
@@ -29,6 +30,8 @@ export class HistoryScreen {
   readonly order = signal<IHistoryFiltersDTO['order']>('newest');
   readonly startDate = signal<string>('');
   readonly endDate = signal<string>('');
+  
+  readonly isClearHistoryModalOpen = signal(false);
 
   readonly filteredHistoryItems = computed(() => {
     let items = [...this.searchService.historyItems()];
@@ -78,18 +81,24 @@ export class HistoryScreen {
   }
 
   clearHistory() {
-    const isFiltered = this.isCompleteDate(this.startDate()) || this.isCompleteDate(this.endDate());
-    const message = isFiltered ?
-      'Tem certeza que deseja remover os itens filtrados do histórico?' :
-        'Tem certeza que deseja limpar todo o histórico?';
+    this.isClearHistoryModalOpen.set(true);
+  }
 
-    if (confirm(message)) {
-      if (isFiltered) {
-        this.searchService.removeHistoryItems(this.filteredHistoryItems());
-      } else {
-        this.searchService.clearHistory();
-      }
+  onConfirmClearHistory() {
+    const isFiltered = this.isCompleteDate(this.startDate()) || this.isCompleteDate(this.endDate());
+    if (isFiltered) {
+      this.searchService.removeHistoryItems(this.filteredHistoryItems());
+    } else {
+      this.searchService.clearHistory();
     }
+    this.isClearHistoryModalOpen.set(false);
+  }
+
+  getClearHistoryMessage(): string {
+    const isFiltered = this.isCompleteDate(this.startDate()) || this.isCompleteDate(this.endDate());
+    return isFiltered ?
+      this.t().confirmationModal.clearFilteredHistoryMessage :
+      this.t().confirmationModal.clearHistoryMessage;
   }
 
   resetFilters() {

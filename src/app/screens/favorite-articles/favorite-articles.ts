@@ -1,11 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SearchService } from '../../services/search-service';
 import { Router } from '@angular/router';
 import { TranslationService } from '../../services/translation.service';
+import { ConfirmationModal } from '../../components/shared/confirmation-modal/confirmation-modal';
 
 @Component({
   selector: 'app-favorite-articles',
-  imports: [],
+  imports: [ConfirmationModal],
   templateUrl: './favorite-articles.html',
   styleUrl: './favorite-articles.css',
 })
@@ -16,11 +17,24 @@ export class FavoriteArticles {
 
   readonly t = this.translationService.t;
   
+  readonly isRemoveArticleModalOpen = signal(false);
+  readonly articleToRemove = signal<string | null>(null);
+
   navigateToArticle(pageId: string) {
     this.router.navigate(['/article', pageId]);
   }
 
   removeFavoriteArticle(pageId: string) {
-    this.favoriteService.removeFavoriteResult(pageId);
+    this.articleToRemove.set(pageId);
+    this.isRemoveArticleModalOpen.set(true);
+  }
+
+  onConfirmRemoveArticle() {
+    const pageId = this.articleToRemove();
+    if (pageId) {
+      this.favoriteService.removeFavoriteResult(pageId);
+      this.isRemoveArticleModalOpen.set(false);
+      this.articleToRemove.set(null);
+    }
   }
 }

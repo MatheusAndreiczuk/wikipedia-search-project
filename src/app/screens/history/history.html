@@ -108,3 +108,13 @@
         }
     </div>
 </div>
+
+<app-confirmation-modal
+    [isOpen]="isClearHistoryModalOpen()"
+    [title]="t().confirmationModal.clearHistoryTitle"
+    [message]="getClearHistoryMessage()"
+    [confirmText]="t().confirmationModal.confirm"
+    [cancelText]="t().confirmationModal.cancel"
+    (confirm)="onConfirmClearHistory()"
+    (cancel)="isClearHistoryModalOpen.set(false)">
+</app-confirmation-modal>

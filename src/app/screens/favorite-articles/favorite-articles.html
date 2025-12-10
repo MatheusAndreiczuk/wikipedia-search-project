@@ -23,3 +23,13 @@
     
     }
 </ul>
+
+<app-confirmation-modal
+    [isOpen]="isRemoveArticleModalOpen()"
+    [title]="t().confirmationModal.removeFavoriteArticleTitle"
+    [message]="t().confirmationModal.removeFavoriteArticleMessage"
+    [confirmText]="t().confirmationModal.confirm"
+    [cancelText]="t().confirmationModal.cancel"
+    (confirm)="onConfirmRemoveArticle()"
+    (cancel)="isRemoveArticleModalOpen.set(false)">
+</app-confirmation-modal>

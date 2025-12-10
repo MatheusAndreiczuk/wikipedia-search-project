@@ -83,7 +83,7 @@
                 <div class="flex items-center gap-2 self-end sm:self-auto">
                     <button (click)="deleteGroup(selectedGroup()!.id)" class="p-2 text-red-500 hover:scale-105 cursor-pointer" title="Excluir Grupo">
                         <!-- <i-lucide [name]="trashIcon"></i-lucide> -->
-                         Excluir grupo
+                         {{ t().favoriteGroups.removeGroup }}
                     </button>
                     <button (click)="closeDetailsModal()" class="p-2 hidden sm:inline-flex text-(--text-300) hover:text-(--text-100) hover:scale-105 cursor-pointer">
                         <i-lucide [name]="closeIcon"></i-lucide>
@@ -150,3 +150,23 @@
         </div>
     </div>
 }
+
+<app-confirmation-modal
+    [isOpen]="isDeleteGroupModalOpen()"
+    [title]="t().confirmationModal.deleteGroupTitle"
+    [message]="t().confirmationModal.deleteGroupMessage"
+    [confirmText]="t().confirmationModal.confirm"
+    [cancelText]="t().confirmationModal.cancel"
+    (confirm)="onConfirmDeleteGroup()"
+    (cancel)="isDeleteGroupModalOpen.set(false)">
+</app-confirmation-modal>
+
+<app-confirmation-modal
+    [isOpen]="isRemoveArticleModalOpen()"
+    [title]="t().confirmationModal.removeArticleFromGroupTitle"
+    [message]="t().confirmationModal.removeArticleFromGroupMessage"
+    [confirmText]="t().confirmationModal.confirm"
+    [cancelText]="t().confirmationModal.cancel"
+    (confirm)="onConfirmRemoveArticle()"
+    (cancel)="isRemoveArticleModalOpen.set(false)">
+</app-confirmation-modal>
