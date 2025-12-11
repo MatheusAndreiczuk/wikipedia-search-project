@@ -9,7 +9,7 @@
             <span>
                 <button
                     class="hover:underline text-[#2316AE] font-semibold text-lg text-left capitalize cursor-pointer"
-                    (click)="navigateToArticle(article.pageId)" title="Ir para o artigo: {{article.title}}">
+                    (click)="navigateToArticle(article)" title="Ir para o artigo: {{article.title}}">
                     {{article.title}}
                 </button>
                 <p [innerHTML]="article.snippet + ' ...'" class="text-base text-justify"></p>

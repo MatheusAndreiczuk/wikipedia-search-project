@@ -1,6 +1,7 @@
 <li class="flex flex-col mb-6 last:mb-0">
     <span>
         <a [routerLink]="['/article', item().pageid]"
+           [queryParams]="{ lang: translationService.currentLang() }"
             class="hover:underline text-[#2316AE] font-semibold text-lg cursor-pointer">{{item().title}}</a>
     </span>
     <div class="flex flex-col lg:flex-row justify-between">

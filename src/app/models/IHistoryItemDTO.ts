@@ -5,6 +5,7 @@ export interface IHistoryItemDTO {
   termOrTitle: string;
   id?: string;
   timestamp: number;
+  language?: string;
 }
 
 export interface IHistoryFiltersDTO {

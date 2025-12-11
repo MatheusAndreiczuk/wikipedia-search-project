@@ -2,13 +2,13 @@
     <div class="p-4 md:p-6 lg:p-8 max-w-7xl mx-auto w-full">
         <button (click)="goBack()" class="flex items-center gap-2 text-(--text-200) mb-6 cursor-pointer">
             <i-lucide [name]="arrowLeft"></i-lucide>
-            Voltar
+            {{ t().article.back }}
         </button>
 
         @if (isLoading()) {
             <div class="flex justify-center flex-col items-center gap-4 h-64">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-(--text-300)"></div>
-                <span>Carregando</span>
+                <span>{{ t().article.loading }}</span>
             </div>
         } @else {
             <article class="prose prose-invert max-w-none w-full wrap-break-word
@@ -39,7 +39,15 @@
                 
                 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:ml-6! [&_ul]:pl-0!
                 [&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:ml-6! [&_ol]:pl-0!">
-                <h1 class="text-3xl font-bold mb-6 text-(--text-100) wrap-break-word">{{ articleTitle() }}</h1>
+                <div class="flex justify-between items-start mb-6 xs:gap-4">
+                    <h1 class="text-3xl font-bold text-(--text-100) wrap-break-word flex-1">{{ articleTitle() }}</h1>
+                    <button (click)="toggleFavorite()" 
+                        class="hover:scale-105 cursor-pointer"
+                        [class.text-yellow-400]="isFavorited()"
+                        [class.text-(--text-300)]="!isFavorited()">
+                        <i-lucide [name]="starIcon" [class]="isFavorited() ? 'fill-current' : ''"></i-lucide>
+                    </button>
+                </div>
                 <div class="overflow-x-auto max-w-full">
                     <div (click)="handleContentClick($event)" [innerHTML]="articleContent()" class="text-(--text-200)"></div>
                 </div>

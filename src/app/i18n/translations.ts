@@ -22,7 +22,15 @@ export const PT = {
         favoriteArticle: 'Favoritar artigo',
         favoritedArticle: 'Artigo favoritado',
         favoriteTerm: 'Favoritar termo',
-        favoritedTerm: 'Termo favoritado'
+        favoritedTerm: 'Termo favoritado',
+        previous: 'Anterior',
+        next: 'Próxima',
+        pageOf: 'Página',
+        of: 'de'
+    },
+    article: {
+        back: 'Voltar',
+        loading: 'Carregando'
     },
     history: {
         title: 'Histórico',
@@ -103,7 +111,15 @@ export const EN = {
         favoriteArticle: 'Favorite article',
         favoritedArticle: 'Favorited article',
         favoriteTerm: 'Favorite term',
-        favoritedTerm: 'Favorited term'
+        favoritedTerm: 'Favorited term',
+        previous: 'Previous',
+        next: 'Next',
+        pageOf: 'Page',
+        of: 'of'
+    },
+    article: {
+        back: 'Back',
+        loading: 'Loading'
     },
     history: {
         title: 'History',

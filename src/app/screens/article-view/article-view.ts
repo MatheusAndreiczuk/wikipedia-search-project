@@ -1,9 +1,10 @@
-import { Component, inject, signal, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, signal, ViewChild, ElementRef, computed } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { SearchService } from '../../services/search-service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { LucideAngularModule, ArrowLeft, ArrowUp } from "lucide-angular";
+import { TranslationService } from '../../services/translation.service';
+import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
+import { LucideAngularModule, ArrowLeft, ArrowUp, Star } from "lucide-angular";
 
 @Component({
   selector: 'app-article-view',
@@ -16,21 +17,33 @@ export class ArticleView {
   private router = inject(Router);
   private location = inject(Location);
   private searchService = inject(SearchService);
+  private translationService = inject(TranslationService);
   private sanitizer = inject(DomSanitizer);
+  private titleService = inject(Title);
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
   articleContent = signal<SafeHtml>('');
   articleTitle = signal<string>('');
+  articleId = signal<string>('');
   isLoading = signal<boolean>(true);
   showScrollTop = signal<boolean>(false);
   
+  readonly t = this.translationService.t;
   readonly arrowLeft = ArrowLeft;
   readonly arrowUp = ArrowUp;
+  readonly starIcon = Star;
+
+  readonly isFavorited = computed(() => this.searchService.verifyFavoritedArticle(this.articleId()));
+
+  articleLanguage = signal<string>('');
 
   constructor() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
+      const lang = this.route.snapshot.queryParamMap.get('lang');
+      this.articleLanguage.set(lang || this.translationService.currentLang());
+      
       if (id) {
         this.loadArticle(id);
       }
@@ -40,9 +53,15 @@ export class ArticleView {
   async loadArticle(id: string) {
     this.isLoading.set(true);
     try {
-      const data = await this.searchService.getArticleContent(id);
+      const data = await this.searchService.getArticleContent(id, this.articleLanguage());
       this.articleTitle.set(data.title);
-      this.articleContent.set(this.sanitizer.bypassSecurityTrustHtml(data.content));
+      this.titleService.setTitle(data.title);
+      this.articleId.set(data.pageId);
+      
+      let content = data.content;
+      content = content.replace(/href="\/wiki\/([^"]*)"/g, 'href="/article/$1"');
+      
+      this.articleContent.set(this.sanitizer.bypassSecurityTrustHtml(content));
  
       setTimeout(() => {
         if (this.scrollContainer) {
@@ -54,6 +73,18 @@ export class ArticleView {
       console.error('Erro ao carregar artigo:', error);
     } finally {
       this.isLoading.set(false);
+    }
+  }
+
+  toggleFavorite() {
+    if (this.isFavorited()) {
+      if (this.articleId()) {
+        this.searchService.removeFavoriteResult(this.articleId());
+      }
+    } else {
+      if (this.articleId()) {
+         this.searchService.addFavoriteResult(this.articleTitle(), 'Artigo favoritado via visualização', this.articleId(), this.articleLanguage());
+      }
     }
   }
 
@@ -80,21 +111,17 @@ export class ArticleView {
     
     if (anchor) {
       const href = anchor.getAttribute('href');
-      if (href) {
-        let title = '';
-        if (href.startsWith('/wiki/')) {
-          title = href.replace('/wiki/', '');
-        } else if (href.includes('wikipedia.org/wiki/')) {
-          const parts = href.split('/wiki/');
-          if (parts.length > 1) {
-            title = parts[1];
-          }
-        }
-
-        if (title) {
-          event.preventDefault();
-          title = title.split('#')[0];
-          this.router.navigate(['/article', decodeURIComponent(title)]);
+      if (href && href.startsWith('/article/')) {
+        event.preventDefault();
+        const title = href.replace('/article/', '');
+        
+        if (event.button === 1 || event.ctrlKey || event.metaKey) {
+            const url = this.router.serializeUrl(
+              this.router.createUrlTree(['/article', decodeURIComponent(title)], { queryParams: { lang: this.articleLanguage() } })
+            );
+            window.open(url, '_blank');
+        } else {
+            this.router.navigate(['/article', decodeURIComponent(title)], { queryParams: { lang: this.articleLanguage() } });
         }
       }
     }

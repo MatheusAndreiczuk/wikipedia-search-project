@@ -78,7 +78,7 @@ export class HistoryScreen {
     if (item.type === 'search') {
       this.router.navigate(['/'], { queryParams: { search: item.termOrTitle } });
     } else {
-      this.router.navigate(['/article', item.id]);
+      this.router.navigate(['/article', item.id], { queryParams: { lang: item.language } });
     }
   }
 

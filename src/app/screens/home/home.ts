@@ -74,7 +74,7 @@ export class Home {
    }
 
    addFavoriteResult({ title, snippet, pageId }: IFavoriteResultsDTO) {
-     this.searchService.addFavoriteResult(title, snippet, pageId);
+     this.searchService.addFavoriteResult(title, snippet, pageId, this.translationService.currentLang());
    }
 
    isFavoritedArticle(pageId: string): boolean {

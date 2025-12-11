@@ -66,7 +66,8 @@ export class SearchService {
       this.addToHistory({
         type: 'search',
         termOrTitle: searchTerm,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        language: language
       });
     }
   }
@@ -123,23 +124,25 @@ export class SearchService {
     }
   }
 
-  async getArticleContent(identifier: string): Promise<IArticleContentDTO> {
+  async getArticleContent(identifier: string, language: string): Promise<IArticleContentDTO> {
     const isId = /^\d+$/.test(identifier);
     const param = isId ? `pageid=${identifier}` : `page=${encodeURIComponent(identifier)}`;
     
-    const response = await fetch(`https://pt.wikipedia.org/w/api.php?action=parse&${param}&format=json&origin=*`);
+    const response = await fetch(`https://${language}.wikipedia.org/w/api.php?action=parse&${param}&format=json&origin=*`);
     const data = await response.json();
     
     this.addToHistory({
       type: 'article',
       termOrTitle: data.parse.title,
       id: String(data.parse.pageid),
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      language: language
     });
 
     return {
       title: data.parse.title,
-      content: data.parse.text['*']
+      content: data.parse.text['*'],
+      pageId: String(data.parse.pageid)
     };
   }
 
@@ -172,9 +175,9 @@ export class SearchService {
     }
   }
 
-  addFavoriteResult(title: string, snippet: string, pageId: string) {
+  addFavoriteResult(title: string, snippet: string, pageId: string, language?: string) {
     if(!title.trim() || !snippet.trim() || !pageId.trim()) return;
-    const favoriteArticle: IFavoriteResultsDTO = { title, snippet, pageId };
+    const favoriteArticle: IFavoriteResultsDTO = { title, snippet, pageId, language };
     this.favoriteResults.update((article) => [...article, favoriteArticle]);
   }
 

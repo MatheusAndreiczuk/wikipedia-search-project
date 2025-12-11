@@ -37,20 +37,20 @@
                     class="px-1 sm:px-4 py-2 bg-(--bg-200) rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-(--bg-300) cursor-pointer flex items-center gap-1"
                     [disabled]="!hasPrevPage()"
                     (click)="prevPage()">
-                    <i-lucide [name]="arrowLeft" class="w-5 h-5"></i-lucide> <span>Anterior</span>
+                    <i-lucide [name]="arrowLeft" class="w-5 h-5"></i-lucide> <span>{{ t().home.previous }}</span>
                 </button>
                 <span class="text-(--text-200) hidden sm:inline text-md">
-                    Página {{currentPage()}} de {{totalPages()}}
+                    {{ t().home.pageOf }} {{currentPage()}} {{ t().home.of }} {{totalPages()}}
                 </span>
                 <span class="text-(--text-200) sm:hidden flex flex-col items-center justify-center">
-                    <span>{{currentPage()}} de</span>
+                    <span>{{currentPage()}} {{ t().home.of }}</span>
                     <span class="text-(--text-200)">{{totalPages()}}</span>
                 </span>
                 <button 
                     class="px-1 sm:px-4 py-2 bg-(--bg-200) rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-(--bg-300) cursor-pointer flex items-center gap-1"
                     [disabled]="!hasNextPage()"
                     (click)="nextPage()">
-                    <span>Próxima</span> <i-lucide [name]="arrowRight" class="w-5 h-5"></i-lucide>
+                    <span>{{ t().home.next }}</span> <i-lucide [name]="arrowRight" class="w-5 h-5"></i-lucide>
                 </button>
             </div>
             }

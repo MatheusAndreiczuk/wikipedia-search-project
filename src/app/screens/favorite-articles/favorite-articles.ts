@@ -5,6 +5,8 @@ import { TranslationService } from '../../services/translation.service';
 import { ConfirmationModal } from '../../components/shared/confirmation-modal/confirmation-modal';
 import { PageHeader } from '../../components/shared/page-header/page-header';
 
+import { IFavoriteResultsDTO } from '../../models/IFavoriteResultsDTO';
+
 @Component({
   selector: 'app-favorite-articles',
   imports: [ConfirmationModal, PageHeader],
@@ -21,8 +23,8 @@ export class FavoriteArticles {
   readonly isRemoveArticleModalOpen = signal(false);
   readonly articleToRemove = signal<string | null>(null);
 
-  navigateToArticle(pageId: string) {
-    this.router.navigate(['/article', pageId]);
+  navigateToArticle(article: IFavoriteResultsDTO) {
+    this.router.navigate(['/article', article.pageId], { queryParams: { lang: article.language } });
   }
 
   removeFavoriteArticle(pageId: string) {
