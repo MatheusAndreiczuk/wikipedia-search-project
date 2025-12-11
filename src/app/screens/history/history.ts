@@ -9,11 +9,12 @@ import { DateInputMaskDirective } from '../../directives/date-input-mask.directi
 import { ConfirmationModal } from '../../components/shared/confirmation-modal/confirmation-modal';
 import { PageHeader } from '../../components/shared/page-header/page-header';
 import { EmptyState } from '../../components/shared/empty-state/empty-state';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-history',
   standalone: true,
-  imports: [LucideAngularModule, FormsModule, DateInputMaskDirective, ConfirmationModal, PageHeader, EmptyState],
+  imports: [LucideAngularModule, FormsModule, DateInputMaskDirective, ConfirmationModal, PageHeader, EmptyState, UpperCasePipe],
   templateUrl: './history.html',
 })
 export class HistoryScreen {

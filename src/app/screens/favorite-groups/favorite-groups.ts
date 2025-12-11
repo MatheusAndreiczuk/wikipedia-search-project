@@ -10,10 +10,11 @@ import { ConfirmationModal } from '../../components/shared/confirmation-modal/co
 import { PageHeader } from '../../components/shared/page-header/page-header';
 import { EmptyState } from '../../components/shared/empty-state/empty-state';
 import { FavoriteGroupCard } from '../../components/favorite-group-card/favorite-group-card';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-favorite-groups',
-  imports: [LucideAngularModule, RouterLink, FormsModule, ConfirmationModal, PageHeader, EmptyState, FavoriteGroupCard],
+  imports: [LucideAngularModule, RouterLink, FormsModule, ConfirmationModal, PageHeader, EmptyState, FavoriteGroupCard, UpperCasePipe],
   templateUrl: './favorite-groups.html',
   styleUrl: './favorite-groups.css'
 })

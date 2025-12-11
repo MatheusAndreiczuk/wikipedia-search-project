@@ -36,7 +36,8 @@
             <div class="p-6 space-y-4">
                 <div>
                     <label class="text-sm font-medium text-(--text-200) mb-2">{{ t().favoriteGroups.groupName }}</label>
-                    <input type="text" [(ngModel)]="newGroupName" placeholder="{{ t().favoriteGroups.nameGroupPlaceholder }}" 
+                    <input type="text" [(ngModel)]="newGroupName" (keydown.enter)="createGroup()" 
+                            placeholder="{{ t().favoriteGroups.nameGroupPlaceholder }}" 
                            class="w-full p-3 rounded-sm border border-(--bg-300) bg-(--bg-100) text-(--text-100) focus:outline-(--text-400)">
                 </div>
                 <div>
@@ -49,7 +50,7 @@
             </div>
             <div class="p-6 border-t border-(--bg-300) flex justify-end gap-3 flex-col sm:flex-row">
                 <button (click)="closeCreateModal()" class="px-4 py-2 text-(--text-200) hover:bg-(--bg-200) rounded-md cursor-pointer">{{ t().favoriteGroups.cancel }}</button>
-                <button (click)="createGroup()" [disabled]="!newGroupName().trim()" 
+                <button (click)="createGroup()" [disabled]="!newGroupName().trim()"
                         class="px-4 py-2 bg-(--bg-400) text-white rounded-md hover:outline-1 hover:outline-(--bg-400) disabled:cursor-not-allowed cursor-pointer">
                     {{ t().favoriteGroups.addGroupButton }}
                 </button>
@@ -123,6 +124,11 @@
                             <div class="group flex items-center justify-between p-4 rounded-lg border border-(--bg-300) bg-(--bg-100) hover:outline-1 hover:outline-(--bg-300)">
                                 <a [routerLink]="['/article', article.pageId]" [queryParams]="{ lang: article.language }" (click)="closeDetailsModal()" class="flex-1 text-(--text-100) flex items-center gap-2">
                                     {{ article.title }}
+                                    @if (article.language && article.language !== translationService.currentLang()) {
+                                        <span class="px-1.5 py-0.5 text-xs font-bold text-gray-500 border border-gray-300 rounded">
+                                            {{ article.language | uppercase }}
+                                        </span>
+                                    }
                                     <i-lucide [name]="externalLinkIcon" class="w-4 h-4 opacity-0 group-hover:opacity-80"></i-lucide>
                                 </a>
                                 <button (click)="removeArticleFromGroup(article.pageId)" class="text-red-500 hover:scale-110 p-2 cursor-pointer hover:opacity-100" title="Remover do grupo">

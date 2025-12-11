@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { TranslationService } from '../../services/translation.service';
 import { ConfirmationModal } from '../../components/shared/confirmation-modal/confirmation-modal';
 import { PageHeader } from '../../components/shared/page-header/page-header';
+import { UpperCasePipe } from '@angular/common';
 
 import { IFavoriteResultsDTO } from '../../models/IFavoriteResultsDTO';
 
 @Component({
   selector: 'app-favorite-articles',
-  imports: [ConfirmationModal, PageHeader],
+  imports: [ConfirmationModal, PageHeader, UpperCasePipe],
   templateUrl: './favorite-articles.html',
   styleUrl: './favorite-articles.css',
 })

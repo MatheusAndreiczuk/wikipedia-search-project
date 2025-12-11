@@ -23,25 +23,23 @@
                 </button>
 
                 <div class="flex flex-wrap sm:justify-end justify-center items-center gap-3">
-                    <div class="relative flex items-center gap-2 bg-(--bg-200) px-3 py-2 rounded-sm shadow hover:outline hover:outline-(--text-300) cursor-pointer max-w-48"
-                        (click)="focusDateInput(startDateInput)">
-                        <i-lucide [name]="calendarIcon" class="w-4 h-4 text-(--text-300)"
+                    <div class="relative flex items-center gap-2 bg-(--bg-200) px-3 py-2 rounded-sm shadow hover:outline hover:outline-(--text-300) cursor-pointer max-w-48">
+                        <i-lucide [name]="calendarIcon" class="w-4 h-4 text-(--text-300) cursor-pointer hover:text-(--text-100)"
                             (click)="openCalendar($event, startDatePicker)"></i-lucide>
                         <span class="text-sm text-(--text-200)">{{ t().history.from }}</span>
                         <input #startDateInput appDateInputMask type="text" [ngModel]="startDate()" (ngModelChange)="onStartDateChange($event)"
                             class="text-(--text-200) text-sm outline-none w-auto cursor-pointer bg-transparent" placeholder="dd/mm/aaaa">
-                        <input #startDatePicker type="date" class="absolute inset-0 opacity-0" aria-hidden="true"
+                        <input #startDatePicker type="date" class="w-0 h-0 opacity-0 absolute" aria-hidden="true" tabindex="-1"
                             (change)="onDateSelect($event.target.value, 'start')">
                     </div>
 
-                    <div class="relative flex items-center gap-2 bg-(--bg-200) px-3 py-2 rounded-sm shadow hover:outline hover:outline-(--text-300) cursor-pointer max-w-48"
-                        (click)="focusDateInput(endDateInput)">
-                        <i-lucide [name]="calendarIcon" class="w-4 h-4 text-(--text-300)"
+                    <div class="relative flex items-center gap-2 bg-(--bg-200) px-3 py-2 rounded-sm shadow hover:outline hover:outline-(--text-300) cursor-pointer max-w-48">
+                        <i-lucide [name]="calendarIcon" class="w-4 h-4 text-(--text-300) cursor-pointer hover:text-(--text-100)"
                             (click)="openCalendar($event, endDatePicker)"></i-lucide>
                         <span class="text-sm text-(--text-200)">{{ t().history.to }}</span>
                         <input #endDateInput appDateInputMask type="text" [ngModel]="endDate()" (ngModelChange)="onEndDateChange($event)"
                             class="text-(--text-200) text-sm outline-none w-auto cursor-pointer bg-transparent" placeholder="dd/mm/aaaa">
-                        <input #endDatePicker type="date" class="absolute inset-0 opacity-0" aria-hidden="true"
+                        <input #endDatePicker type="date" class="w-0 h-0 opacity-0 absolute" aria-hidden="true" tabindex="-1"
                             (change)="onDateSelect($event.target.value, 'end')">
                     </div>
 
@@ -73,7 +71,14 @@
                             </div>
                             
                             <div class="flex flex-col">
-                                <span class="text-(--text-100) text-lg">{{ item.termOrTitle }}</span>
+                                <span class="text-(--text-100) text-lg flex items-center gap-2">
+                                    {{ item.termOrTitle }}
+                                    @if (item.language && item.language !== translationService.currentLang()) {
+                                        <span class="px-1.5 py-0.5 text-xs font-bold text-gray-500 border border-gray-300 rounded">
+                                            {{ item.language | uppercase }}
+                                        </span>
+                                    }
+                                </span>
                                 <span class="text-sm text-(--text-300)">
                                     {{ item.type === 'search' ? 'Busca realizada' : 'Artigo visualizado' }}
                                 </span>

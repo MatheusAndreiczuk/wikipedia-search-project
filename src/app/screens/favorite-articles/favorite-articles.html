@@ -8,9 +8,14 @@
         <span class="flex items-center sm:flex-row flex-col gap-1 sm:gap-0">
             <span>
                 <button
-                    class="hover:underline text-[#2316AE] font-semibold text-lg text-left capitalize cursor-pointer"
+                    class="hover:underline text-[#2316AE] font-semibold text-lg text-left capitalize cursor-pointer flex items-center gap-2"
                     (click)="navigateToArticle(article)" title="Ir para o artigo: {{article.title}}">
                     {{article.title}}
+                    @if (article.language && article.language !== translationService.currentLang()) {
+                        <span class="px-1.5 py-0.5 text-xs text-gray-500 border border-gray-300 rounded">
+                            {{ article.language | uppercase }}
+                        </span>
+                    }
                 </button>
                 <p [innerHTML]="article.snippet + ' ...'" class="text-base text-justify"></p>
             </span>
