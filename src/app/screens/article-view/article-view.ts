@@ -83,7 +83,7 @@ export class ArticleView {
       }
     } else {
       if (this.articleId()) {
-         this.searchService.addFavoriteResult(this.articleTitle(), 'Artigo favoritado via visualização', this.articleId(), this.articleLanguage());
+         this.searchService.addFavoriteResult(this.articleTitle(), this.t().article.favoritedViaView, this.articleId(), this.articleLanguage());
       }
     }
   }

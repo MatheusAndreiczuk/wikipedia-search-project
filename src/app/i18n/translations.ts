@@ -30,7 +30,8 @@ export const PT = {
     },
     article: {
         back: 'Voltar',
-        loading: 'Carregando'
+        loading: 'Carregando',
+        favoritedViaView: 'Artigo favoritado via visualização'
     },
     history: {
         title: 'Histórico',
@@ -41,7 +42,9 @@ export const PT = {
         to: 'Até:',
         newest: 'Mais recente',
         older: 'Mais antigo',
-        noItemsFound: 'Nenhum item encontrado para os filtros aplicados.'
+        noItemsFound: 'Nenhum item encontrado para os filtros aplicados.',
+        searchPerformed: 'Busca realizada',
+        articleViewed: 'Artigo visualizado'
     },
     favoriteSearches: {
         title: 'Termos Favoritos',
@@ -119,7 +122,8 @@ export const EN = {
     },
     article: {
         back: 'Back',
-        loading: 'Loading'
+        loading: 'Loading',
+        favoritedViaView: 'Article favorited via view'
     },
     history: {
         title: 'History',
@@ -130,7 +134,9 @@ export const EN = {
         to: 'To:',
         newest: 'Newest',
         older: 'Older',
-        noItemsFound: 'No items found for the applied filters.'
+        noItemsFound: 'No items found for the applied filters.',
+        searchPerformed: 'Search performed',
+        articleViewed: 'Article viewed'
     },
     favoriteSearches: {
         title: 'Favorited Terms',
