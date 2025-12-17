@@ -1,14 +1,17 @@
 import { IArticleContentDTO } from './../models/IArticleContentDTO';
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { WikiResponse, WikiResult } from '../models/ISearchResponseDTO';
 import { IFavoriteResultsDTO } from '../models/IFavoriteResultsDTO';
 import { IHistoryItemDTO, IHistoryFiltersDTO } from '../models/IHistoryItemDTO';
 import { IFavoriteGroupDTO } from '../models/IFavoriteGroupDTO';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
+  private http = inject(HttpClient);
 
   readonly searchResults = signal<WikiResult[]>([]);
   readonly currentSearchTerm = signal<string>('');
@@ -47,8 +50,7 @@ export class SearchService {
   }
 
   async fetchSearchResults(searchTerm: string, offset: number = 0, language: string) {
-    const response = await fetch(`https://${language}.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchTerm)}&sroffset=${offset}&srlimit=10&format=json&origin=*`);
-    const data = await response.json() as WikiResponse;
+    const data = await firstValueFrom(this.http.get<WikiResponse>(`https://${language}.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchTerm)}&sroffset=${offset}&srlimit=10&format=json&origin=*`));
     
     if (data.query && data.query.search) {
       this.searchResults.set(data.query.search as WikiResult[]);
@@ -73,8 +75,7 @@ export class SearchService {
   }
 
   async fetchGeoSearchResults(lat: number, lon: number, radius: number = 10000) {
-    const response = await fetch(`https://pt.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${lat}|${lon}&gsradius=${radius}&gslimit=10&format=json&origin=*`);
-    const data = await response.json() as WikiResponse;
+    const data = await firstValueFrom(this.http.get<WikiResponse>(`https://pt.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${lat}|${lon}&gsradius=${radius}&gslimit=10&format=json&origin=*`));
 
     if (data.query && data.query.geosearch) {
       const results = data.query.geosearch.map((item: any) => ({
@@ -104,8 +105,7 @@ export class SearchService {
 
   async getReverseGeocoding(lat: number, lon: number): Promise<string> {
     try {
-      const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-      const data = await response.json();
+      const data = await firstValueFrom(this.http.get<any>(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`));
       
       if (data.address) {
         const city = data.address.city || data.address.town || data.address.village || data.address.municipality;
@@ -128,8 +128,7 @@ export class SearchService {
     const isId = /^\d+$/.test(identifier);
     const param = isId ? `pageid=${identifier}` : `page=${encodeURIComponent(identifier)}`;
     
-    const response = await fetch(`https://${language}.wikipedia.org/w/api.php?action=parse&${param}&format=json&origin=*`);
-    const data = await response.json();
+    const data = await firstValueFrom(this.http.get<any>(`https://${language}.wikipedia.org/w/api.php?action=parse&${param}&format=json&origin=*`));
     
     this.addToHistory({
       type: 'article',
